@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    title SungKyunKwan University
+    meta(name="viewport", content="width=device-width,initial-scale=1.0")
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO', crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin='anonymous')
+    script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src='/javascript/script.js')
+    link(rel='stylesheet', type='text/css',  href='stylesheets/style.css')
+  
+  body
+    
+    #mySidenav.sidenav
+      a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
+      a(href="/sales") 매출 관리
+      a(href="/ingredient") 재료 관리
+      a(href="/customer") 고객 관리
+      a(href="/shop") 매장 관리
+      a(herf='javascript:void(0)', id='LogoutBtn', class='logoutbtn', onclick='closeNav()', style="cursor:pointer") Logout
+
+    #overlay
+      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
+        a#my_title.navbar-brand(href='/manage')
+          p(style='font-size:25px') 관리자 페이지
+        
+        ul.nav.navbar
+          a.nav-link( onclick="openNav()") 
+            span.glyphicon.glyphicon-menu-hamburger 
+
+      h2.text-center(style='padding-top:30px')
+  
+      

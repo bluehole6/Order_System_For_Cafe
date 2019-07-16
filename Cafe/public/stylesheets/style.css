@@ -1,0 +1,467 @@
+h1
+{
+	background-image:url("../image/academics.jpg");
+	font-size:100px;
+	color:white;
+	text-align:center;
+	vertical-align:center;
+	margin-top:120px;
+
+}
+
+h2
+{
+	margin-top:70px;
+	margin-bottom:30px;
+	font-size:40px;
+}
+
+h3
+{
+	margin-top:10px;
+	font-size:20px;
+}
+
+h4
+{
+	font-size:25px;
+	color:#2962e5;
+	font-style:italic;
+
+	margin-top: 120px;
+}
+
+p
+{
+	font-size:15px;
+	margin : 10px;
+}
+
+
+
+ /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 9999; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 50% auto; /* 15% from the top and centered */
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */
+            border-radius: 10px;                          
+        }
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            margin-left: 150px;
+            margin-top: 10px;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+
+#info_table{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+
+	width:100%;
+}   
+
+#info_table tr{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	text-align: center;
+}   
+
+#info_table th{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+
+	font-size:20px;
+}  
+
+
+
+#info_table td{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	margin:10px;
+	font-size:15px;
+}  
+
+#RegisterForm table
+{
+	font-size:18px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	margin:10px;
+	width: 95%;
+	text-align: center;
+}
+
+#RegisterForm th
+{
+	background-color: #F2F2F2;
+	padding-left:13px;
+	height :50px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	font-size: 15px;
+	text-align: left;
+}
+
+
+#RegisterForm td{
+
+	padding-left:10px;
+	text-align: left;
+	height :50px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	font-size: 12px;
+}
+
+#Option_table table
+{
+	font-size:18px;
+	border-style: solid;
+	border-width: 0px;
+	border-color: #dddddd;
+	margin:10px;
+	width: 95%;
+	text-align: center;
+}
+
+#Option_table th
+{
+	background-color: #F2F2F2;
+	padding-left:13px;
+	height :50px;
+	border-style: solid;
+	border-width: 0px;
+	border-color: #dddddd;
+	font-size: 15px;
+	text-align: left;
+}
+
+#Option_table td
+{
+	padding-top: 10px;
+	border-style: solid;
+	border-width: 0px;
+	border-color: #dddddd;
+}
+
+
+#menu_table table
+{
+	font-size:18px;
+	border-style: solid;
+	border-width: 0px;
+	border-color: #dddddd;
+	width: 100%;
+	text-align: center;
+}
+
+#menu_table th
+{
+	background-color: #F2F2F2;
+	height :50px;
+	border-style: solid;
+	border-width: 0px;
+	border-color: #dddddd;
+	font-size: 15px;
+}
+
+
+#menu_table td{
+	padding-top: 10px;
+	border-style: solid;
+	border-width: 0px;
+	border-color: #dddddd;
+
+}
+#menu_table{
+	position: absolute;
+}
+
+
+#cart_table{
+	padding-top: 50px;
+	position: absolute;
+}
+
+
+#cart_table th
+{
+	background-color: #F2F2F2;
+	height :50px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	font-size: 14px;
+	text-align: center;
+}
+
+#cart_table td
+{
+	
+	height :50px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	font-size: 12px;
+	text-align: center;
+}
+
+
+.menuimg{
+	position: relative;
+	padding: 5px;
+	width: 190px;
+	height: 250px;
+	border-radius: 10px;
+
+}
+
+#img{
+	position: relative;
+	padding: 5px;
+	width: 190px;
+	height: 250px;
+	border-radius: 10px;
+
+}
+
+.OrderBtn{
+	position: relative;
+	border-style: solid;
+	border-color: #dddddd;
+	border-width: 1px;
+	font-size: 14px;
+	width: 45%;
+	border-radius: 5px;
+}
+
+#OrderBtn{
+	position: relative;
+	border-style: solid;
+	border-color: #dddddd;
+	border-width: 1px;
+	font-size: 14px;
+	width: 45%;
+	border-radius: 5px;
+}
+
+.PutInBtn{
+	position: relative;
+	border-style: solid;
+	border-color: #dddddd;
+	border-width: 1px;
+	font-size: 14px;
+	width: 45%;
+	border-radius: 5px;
+}
+
+#btn0{
+	position: relative;
+	border-style: solid;
+	border-color: #dddddd;
+	border-width: 1px;
+	font-size: 14px;
+	width: 100%;
+	border-radius: 5px;
+}
+
+
+.nav.navbar span{
+	font-size: 34px;
+	padding-left: 10px;
+	padding-top: 10px;	
+	color: black;
+	cursor: pointer;
+}
+
+
+
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Stay on top */
+  top: 0; /* Stay at the top */
+  right: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 50px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 15px 10px 1px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: 0.2s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  color: #585858;
+  position: absolute;
+  top: 1px;
+  left: 120px;
+  font-size: 36px;
+  margin-right: 0px;
+}
+
+
+.writing{
+	position: relative; 
+	width: 400; 
+	height: 375px; 
+	top: -30px;  
+	margin:0 
+	padding:0; 
+}
+
+.banner {
+	position: relative; 
+	width: 400; 
+	height: 400px; 
+	top: 50px;  
+	margin:0 
+	auto; 
+	padding:0;
+	padding-top:20px;
+	overflow: 
+	hidden;
+}
+
+.banner ul {
+	position: absolute; 
+	margin: 0px; 
+	padding:0; 
+	list-style: none; 
+}
+
+.banner ul li {
+	float: left; 
+	width: 450; 
+	height: 400px; 
+	margin:0; 
+	padding:0;
+
+}
+#findName,#findID,#find_phone,#find_phone1,#find_phone2{
+	text-align: center;
+	border-style: solid;
+	border-radius: 5px;
+}
+
+#myid{
+	border-style: solid;
+	border-radius: 5px;
+	width: 100%;
+}
+
+#pass{
+	border-style: solid;
+	border-radius: 5px;
+	width: 100%;
+}
+
+#RegisterBtn{
+	background-color:black;
+	border-radius: 5px; 
+	color:white; 
+	width:100%;
+}
+
+#LoginBtn{
+	background-color:black;
+	border-radius: 5px; 
+	color:white; 
+	width:100%;
+}
+
+#find_idBtn{
+	background-color:black;
+	border-radius: 5px; 
+	color:white; 
+	width:100%;
+}
+
+#find_pwBtn{
+	background-color:black;
+	border-radius: 5px; 
+	color:white; 
+	width:100%;
+}
+
+#LoginForm{
+	margin-top:40px;
+	text-align: center;
+}
+#RegisterForm{
+	margin-top:40px;
+	text-align: left;
+}
+
+#register_name{
+	text-align: center;
+}
+.register p input{
+	text-align: center;
+}
+
+.hidden
+{
+	display: none;
+}
+
+#logo{	
+	width: 100%;
+	text-align: center;
+}
+
+#my_nav{
+	background-color: white;
+	padding: 1px;
+}

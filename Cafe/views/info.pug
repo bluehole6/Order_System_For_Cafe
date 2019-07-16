@@ -1,0 +1,92 @@
+doctype html
+html
+  head
+    title SungKyunKwan University
+    meta(name="viewport", content="width=device-width,initial-scale=1.0")
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO', crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin='anonymous')
+    script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src='/javascript/script.js')
+    link(rel='stylesheet', type='text/css', href='stylesheets/style.css')
+  
+  body
+    
+    #mySidenav.sidenav
+      if !member_id
+        a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
+        a(href="/about") About
+        a(href="/menu") Menu
+        a(href="/events") Events
+        a(href="/contact") Contact
+
+      else
+        a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
+        a(href="/about") About
+        a(href="/menu") Menu
+        a(href="/events") Events
+        a(href="/contact") Contact
+        a(herf='javascript:void(0)', id='LogoutBtn', class='logoutbtn', onclick='closeNav()', style="cursor:pointer") Logout
+
+    #overlay
+      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
+        a#my_title.navbar-brand(href='/main')
+          img(src='image/logo2.jpg', width='150', height='45')
+        
+        ul.nav.navbar
+          if !member_id
+            a.nav-link(href='/login')
+              span.glyphicon.glyphicon-user
+
+            a.nav-link(href='/cart')
+              span.glyphicon.glyphicon-shopping-cart
+
+            a.nav-link( onclick="openNav()") 
+              span.glyphicon.glyphicon-menu-hamburger
+          else
+            a.nav-link(href='/info')
+              span.glyphicon.glyphicon-user
+
+            a.nav-link(href='/cart')
+              span.glyphicon.glyphicon-shopping-cart
+
+            a.nav-link( onclick="openNav()") 
+              span.glyphicon.glyphicon-menu-hamburger 
+
+      h2.text-center(style='padding-top:30px') 회원정보
+
+
+      table#info_table
+        thead
+          tr
+            th
+              p(style="font-size:20px") 안녕하세요.
+              p#info_name(style="font-size:20px") 님
+            th
+              span#info_stamp(style="font-size:50px") 0
+              span(style="font-size:25px")  / 10
+
+        tbody
+          tr
+            th 아이디
+            td#info_id
+          trs
+            th 이&nbsp&nbsp&nbsp&nbsp름
+            td#info_name2
+          tr 
+            th 핸드폰
+            td#info_phone
+          tr 
+            th 쿠&nbsp&nbsp&nbsp&nbsp폰
+            td#info_coupon
+          tr 
+            th 생&nbsp&nbsp&nbsp&nbsp일
+            td#info_birth
+          tr 
+            th 선호 커피
+            td#info_favorite    
+
+  
+      
+      

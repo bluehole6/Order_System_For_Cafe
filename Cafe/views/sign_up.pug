@@ -1,0 +1,108 @@
+doctype html
+html
+  head
+    title SungKyunKwan University
+    meta(name="viewport", content="width=device-width,initial-scale=1.0")
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO', crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin='anonymous')
+    script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
+    script(src='/javascript/script.js')
+    link(rel='stylesheet', type='text/css',  href='stylesheets/style.css')
+  
+  body
+    
+    #mySidenav.sidenav
+      if !member_id
+        a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
+        a(href="/about") About
+        a(href="/menu") Menu
+        a(href="/events") Events
+        a(href="/contact") Contact
+
+      else
+        a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
+        a(href="/about") About
+        a(href="/menu") Menu
+        a(href="/events") Events
+        a(href="/contact") Contact
+        a(herf='javascript:void(0)', id='LogoutBtn', class='logoutbtn', onclick='closeNav()', style="cursor:pointer") Logout
+
+    #overlay
+      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
+        a#my_title.navbar-brand(href='/main')
+          img(src='image/logo2.jpg', width='150', height='45')
+        
+        ul.nav.navbar
+          if !member_id
+            a.nav-link(href='/login')
+              span.glyphicon.glyphicon-user
+
+            a.nav-link(href='/cart')
+              span.glyphicon.glyphicon-shopping-cart
+
+            a.nav-link( onclick="openNav()") 
+              span.glyphicon.glyphicon-menu-hamburger
+          else
+            a.nav-link(href='/info')
+              span.glyphicon.glyphicon-user
+
+            a.nav-link(href='/cart')
+              span.glyphicon.glyphicon-shopping-cart
+
+            a.nav-link( onclick="openNav()") 
+              span.glyphicon.glyphicon-menu-hamburger 
+
+      h2.text-center(style="padding-top:30px") 회원가입
+      h3.text-center Welcome!
+      h3.text-center SKKU COFFEE에 오신 것을 환영합니다!
+
+      form(id = "RegisterForm" action = "/sign_up" method = "POST")
+        #my_table_1          
+          table
+            tbody
+              tr
+                th  기본정보(필수)
+              tr
+                td  아이디                                                             
+                  input#register_id(type='text', name='id', style='margin-left:49px', size='11')
+                  button#checkIDbtn.btn.btn-light(type='button', name='check', style='margin-left:10px') 중복확인
+                  input#checkID(type='hidden', name='id_check', value='uncheck')
+              tr
+                td  비밀번호
+                  input#register_pw(type='password', name='password', style='margin-left:42px')
+              tr
+                td  비밀번호 확인
+                  input#register_pw_chk(type='password', name='password_check', style='margin-left:18px')
+              tr
+                td  이름
+                  input#register_name(type='text', name='name', style='margin-left:63px')
+              tr
+                td  전화번호
+                  input#register_phone(type='text', name='phone', value='010', Readonly, style='margin-left:42px', size='1')
+                  input#register_phone1(type='text', name='phone1', style='margin-left:13px', size='4')
+                  input#register_phone2(type='text', name='phone2', style='margin-left:13px', size='4')   
+
+        #my_table_2
+          table
+            tbody
+              tr
+                th  추가정보(선택)
+              tr
+                td  생년월일
+                  input#register_date(type='date', name='birth', style='margin-left:45px')
+              tr
+                td  선호 커피
+                  //input#register_coffee(type='text', name='coffee', style='margin-left:42px')
+                  select#register_coffee(name='coffee', style='margin-left:42px')
+                    option(value='' selected) --선택--
+                    option(value='1') 아메리카노
+                    option(value='3') 카페라떼
+                    option(value='5') 카페모카
+                    option(value='7') 카포치노
+                    option(value='9') 카라멜 마끼야또
+                    option(value='11') 바닐라 라떼
+
+      p   
+        button#RegisterBtn.btn.btn-light(type='button') 회원가입
