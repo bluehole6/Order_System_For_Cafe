@@ -211,6 +211,7 @@ p
 
 }
 #menu_table{
+
 	position: absolute;
 }
 
@@ -489,6 +490,7 @@ p
 .txtSize19{font-size:19px; letter-spacing:-1px; }
 .txtSize20{font-size:20px; letter-spacing:-1px; line-height:29px;}
 .txtSize26{font-size:26px; line-height:26px; letter-spacing:-1px; *letter-spacing:-1px;}
+.txtSize30{font-size:30px; line-height:35px; letter-spacing:-1px; *letter-spacing:-1px;}
 .txtSize35{font-size:35px; line-height:35px; letter-spacing:-1px; *letter-spacing:-1px;}
 
 .titleST01{font-size:30px; line-height:30px; color:#333; font-family:'NotoSansKRBold','NanumGothicExtraBold'; }

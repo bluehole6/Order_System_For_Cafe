@@ -1,6 +1,5 @@
 
 
-
 // 정보 출력
 var isLogin = 0;
 (function(){ 
@@ -486,26 +485,26 @@ $(function(){
 			alert("장바구니를 채워주세요.");
 		}else{
 			if(confirm("결제하시겠습니까?")){
-			$.ajax({
-				type : "POST",                       
-				url : "/order",
-				success : function(res){
-					if(res.result == "success"){						
-						console.log("order success");
-					}else{
-						if(res.result == "failed"){
-							alert("재료 소진으로 주문 불가능합니다.");
-							console.log("put failed");
-						}				
+				$.ajax({
+					type : "POST",                       
+					url : "/order",
+					success : function(res){
+						if(res.result == "success"){						
+							console.log("order success");
+						}else{
+							if(res.result == "failed"){
+								alert("재료 소진으로 주문 불가능합니다.");
+								console.log("put failed");
+							}				
+						}
 					}
-				}
-			});
-			window.location.href = "/";
+				});
+				window.location.href = "/";
 
-		}else{
+			}else{
 
+			}
 		}
-		} 
 		
 	});
 

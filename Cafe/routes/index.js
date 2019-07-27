@@ -118,7 +118,7 @@ router.get('/shop', function(req, res, next){
 router.post('/checkID', function(req, res, next){
 	console.log(req.body);
 	var id = req.body.id;
-
+	console.log("ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ");
 	if(id == ""){
 		res.send({result : "input_failed"});
 	}else{
