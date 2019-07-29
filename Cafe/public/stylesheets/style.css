@@ -244,6 +244,36 @@ p
 	text-align: center;
 }
 
+#order2_table{
+	padding-top: 50px;
+	position: absolute;
+}
+
+
+
+
+#order2_table th
+{
+	background-color: #F2F2F2;
+	height :50px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	font-size: 14px;
+	text-align: center;
+}
+
+#order2_table td
+{
+	
+	height :50px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	font-size: 12px;
+	text-align: center;
+}
+
 
 .menuimg{
 	position: relative;

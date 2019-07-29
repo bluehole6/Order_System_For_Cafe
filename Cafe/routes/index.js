@@ -111,7 +111,11 @@ router.get('/shop', function(req, res, next){
 	res.render('shop', {member_id : id});
 });
 
+router.get('/order2', function(req, res, next){
+	var id = req.cookies.member_id;
 
+	res.render('order2', {member_id : id});
+});
 
 
 // 아이디 체크 o
@@ -364,9 +368,11 @@ router.post('/order', function(req, res, sequelize){
 	var id = req.cookies.member_id;
 	var num = 0;
 	var ten = 10;
+	var time;
 	models.cart.findAll({
 		where: {user_id: id}
 	}).then( result =>{
+		var time = Date.now();
 		for (var i = 0; i < result.length; i++) {
 			models.orderlist.create({
 				user_id: result[i].user_id,						
@@ -374,7 +380,8 @@ router.post('/order', function(req, res, sequelize){
 				coffee_name: result[i].coffee_name,
 				number: result[i].number,
 				size: result[i].size,
-				shot: result[i].shot
+				shot: result[i].shot,
+				order_time: time
 			})
 		}
 		
@@ -436,10 +443,11 @@ router.post('/order', function(req, res, sequelize){
 		})
 		
 
-		res.send({ result : 'success'});
+		res.send({ result : 'success', member_id: id});
 
 	}).catch( error =>{
 		console.log(error);
+		res.send({ result : 'failed'});
 	})
 
 	
@@ -601,6 +609,16 @@ router.post('/cart', function(req, res){
 		where: {user_id: id}
 	}).then(docs =>{
 		res.send({ result : 'success', carts: docs, member_id: id});
+	})
+});
+
+//주문 목록 불러오기
+router.post('/order2', function(req, res){
+	var id = req.cookies.member_id;
+	models.orderlist.findAll({
+	
+	}).then(docs =>{
+		res.send({ result : 'success', orderlists: docs, member_id: id});
 	})
 });
 

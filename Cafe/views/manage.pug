@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title SungKyunKwan University
+    title Sungkyunkwan Coffee
     meta(name="viewport", content="width=device-width,initial-scale=1.0")
     meta(charset='utf-8')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
@@ -13,8 +13,15 @@ html
   
   body
     
+    #overlay
+      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
+        a#my_title.navbar-brand(href='/main')
+          img(src='image/logo2.jpg', width='150', height='45')
+        
+    
     #mySidenav.sidenav
       a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
+      a(href="/order2", onclick="loadOrder()") 주문 관리
       a(href="/sales") 매출 관리
       a(href="/ingredient") 재료 관리
       a(href="/customer") 고객 관리

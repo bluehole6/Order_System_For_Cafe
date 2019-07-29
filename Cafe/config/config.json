@@ -4,8 +4,14 @@
     "password": "q1591215",
     "database": "proj_db",
     "host": "127.0.0.1",
-    "dialect": "mysql"
-    
+    "dialect": "mysql",
+    "timezone": "+09:00",
+    "define": {
+      "charset": "utf8mb4",
+      "dialectOptions": {
+        "collate": "utf8mb4_general_ci"
+      }
+    }
   },
   "test": {
     "username": "root",
@@ -14,6 +20,7 @@
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
+
   "production": {
     "username": "root",
     "password": null,
@@ -21,4 +28,6 @@
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
+
+
 }

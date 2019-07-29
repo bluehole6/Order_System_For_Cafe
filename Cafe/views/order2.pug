@@ -13,6 +13,12 @@ html
   
   body
     
+    #overlay
+      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
+        a#my_title.navbar-brand(href='/main')
+          img(src='image/logo2.jpg', width='150', height='45')
+        
+    
     #mySidenav.sidenav
       a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
       a(href="/order2") 주문 관리
@@ -31,6 +37,30 @@ html
           a.nav-link( onclick="openNav()") 
             span.glyphicon.glyphicon-menu-hamburger 
 
-      h2.text-center(style='padding-top:30px') 매출 관리
-      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') 고객이 주문 할때마다 금액을 저장하여 체크하기
-      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') 실시간 매출, 날짜별 매출, 총 매출
+      h2.text-center(style='padding-top:30px') 주문 관리
+      h3.text-center.ma_b15(style='font-size: 18px') 완료 버튼 누를 시, 고객에게 alert창 띄우기
+
+      #order2
+        table#order2_table
+          thead
+            tr(width='100%')
+              th.hidden
+              th(width='1%') 완료 
+              th(width='2%') 고객명
+              th(width='5%') 상품명
+              th(width='2%') 옵션           
+              th(width='4%') 주문 시간  
+              th(width='2%') 수량 
+          tbody
+            
+          tfoot
+            tr
+              th.hidden
+              th 
+                button#All_cancelBtn.btn.btn-light(type='button') 전체 완료
+              th(colspan="4") 총합계  
+              th#total_num2 0개
+ 
+
+  
+      

@@ -23,6 +23,11 @@ module.exports =(sequelize, DataTypes) => {
 		},
 		shot: {
 			type: DataTypes.STRING,
+		},
+		order_time: {
+			type: DataTypes.DATE,
+			allowNull: false,
+
 		}
 
 	},{

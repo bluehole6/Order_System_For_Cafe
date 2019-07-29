@@ -1,11 +1,13 @@
 
 
+
 // 정보 출력
 var isLogin = 0;
 (function(){ 
 	if(isLogin == 0){
 		loadInfo();
 		loadCart();
+		loadOrder()
 	}
 })();
 
@@ -93,6 +95,56 @@ function loadCart(){
 				console.log("cart load success");
 			}else{
 				console.log("cart load failed");
+			}
+		}
+	});	
+}
+
+function loadOrder(){
+
+	var checkBtn = $(this);
+	var tr = checkBtn.parent().parent();
+	var td = tr.children();
+	var order_num = td.eq(0).text();;  
+	$.ajax({
+		type : "POST",                       
+		url : "/order2",
+		success : function(res){
+			if(res.result == "success"){
+				var i;
+				var total_number = 0;
+				var id = res.member_id;
+				var res_order = res.orderlists;
+				var shot;
+				var parts = ['U_name','C_name', 'C_num', 'C_option', 'C_complete', 'order_time'];
+				var btn = '<input type="button" id="cancelBtn" value="완료"/>';
+				var btn2 = '<input type="hidden" id="order_num"/>';
+
+
+				$('#order2_table > tbody').empty();
+				$('#total_num2').empty();
+
+				if(id != null){
+					for(i = 0; i < res_order.length; i++){
+
+						if(res_order[i].shot == "add_shot"){
+							res_order[i].shot = "O";
+						}else{
+							res_order[i].shot = "X";
+						}
+						
+						$('#order2_table > tbody:last').append('<tr><td class="hidden">' + res_order[i].id + '</td><td>' + btn + '</td><td>' + res_order[i].user_id + '</td><td>'  + res_order[i].coffee_name + '</td><td>' + "사이즈 : " + res_order[i].size  + "<br>" + "샷추가 :  " + res_order[i].shot + '</td><td>' +  res_order[i].order_time + '</td><td>' + res_order[i].number + "개" + '</td></tr>');
+						total_number += parseInt(res_order[i].number);
+					}
+					
+					
+				}
+				
+				$('#total_num2').append(total_number + "개");
+
+				console.log("order load success");
+			}else{
+				console.log("order load failed");
 			}
 		}
 	});	
@@ -485,26 +537,26 @@ $(function(){
 			alert("장바구니를 채워주세요.");
 		}else{
 			if(confirm("결제하시겠습니까?")){
-				$.ajax({
-					type : "POST",                       
-					url : "/order",
-					success : function(res){
-						if(res.result == "success"){						
-							console.log("order success");
-						}else{
-							if(res.result == "failed"){
-								alert("재료 소진으로 주문 불가능합니다.");
-								console.log("put failed");
-							}				
-						}
+			$.ajax({
+				type : "POST",                       
+				url : "/order",
+				success : function(res){
+					if(res.result == "success"){						
+						console.log("order success");
+					}else{
+						if(res.result == "failed"){
+							alert("재료 소진으로 주문 불가능합니다.");
+							console.log("put failed");
+						}				
 					}
-				});
-				window.location.href = "/";
+				}
+			});
+			window.location.href = "/";
 
-			}else{
+		}else{
 
-			}
 		}
+		} 
 		
 	});
 
