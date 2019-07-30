@@ -37,6 +37,13 @@ module.exports =(sequelize, DataTypes) => {
 			type: DataTypes.STRING
 			
 		},
+		recent_order_time: { 
+			type: DataTypes.DATE
+		},
+		total_order_num: { 
+			type: DataTypes.INTEGER,
+			allowNull: false
+		},
 		isAdmin: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false

@@ -122,7 +122,6 @@ router.get('/order2', function(req, res, next){
 router.post('/checkID', function(req, res, next){
 	console.log(req.body);
 	var id = req.body.id;
-	console.log("ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ");
 	if(id == ""){
 		res.send({result : "input_failed"});
 	}else{
@@ -151,6 +150,7 @@ router.post('/sign_up', function(req, res, next) {
 	var check = req.body.id_check;
 	var body = req.body;
 	var password_check = body.password_check;
+	console.log(body.coffee);
 
 	if(req.body.id == "" || req.body.password == "" || req.body.password_check == "" ||req.body.name == "" || req.body.phone1 == "" || req.body.phone2 == ""){
 		console.log("register failed");
@@ -165,46 +165,84 @@ router.post('/sign_up', function(req, res, next) {
 			console.log("register failed");
 			res.send({result : "pw failed"});	
 		}else if(req.body.id == 'admin'){
-			models.coffee.findOne({
-				where: {id: body.coffee}
+			models.user.create({
+				user_id: body.id,
+				password: body.password,
+				name: body.name,
+				phone: body.phone + body.phone1 + body.phone2,
+				stamp: 0,
+				coupon: 0,
+				birth: null,
+				favorite: null,
+				recent_order_time: null,
+				total_order_num: 0,
+				isAdmin: true
 
-			}).then(result => {
-				models.user.create({
-					user_id: body.id,
-					password: body.password,
-					name: body.name,
-					phone: body.phone + body.phone1 + body.phone2,
-					stamp: 0,
-					coupon: 0,
-					birth: body.birth,
-					favorite: result.coffee_name,
-					isAdmin: true
-
-				}).then(result2 => {
-					models.favorite.create({
-						user_id: body.id,
-						coffee_id: body.coffee,
-						coffee_name: result.coffee_name
-					}).then(result3 => {
-						res.send({result : "success"});
-						console.log("회원가입 완료");
-					})
-				}).catch(err => {
-					console.log(err);
-				})
+			}).then(result3 => {
+				res.send({result : "success"});
+				console.log("회원가입 완료");
 				
-				
-			})
-			.catch(err => {
+			}).catch(err => {
 				console.log(err);
 				res.send({result : "failed"});	
 				console.log("회원가입 실패");
-			});
-		}else{
-			models.coffee.findOne({
-				where: {id: body.coffee}
+			})
 
-			}).then(result => {
+
+		
+		}else{
+			var birth = body.birth;
+			var coffee = body.coffee;
+
+			if(birth == ''){
+				birth = null;
+			}else if(coffee == ''){
+				coffee = null;				
+			}else if(birth == '' && coffee == ''){
+				birth = null;
+				coffee - null;
+			}
+
+			if(coffee != ''){
+				models.coffee.findOne({
+					where: {id: body.coffee}
+
+				}).then(result => {
+					models.user.create({
+						user_id: body.id,
+						password: body.password,
+						name: body.name,
+						phone: body.phone + body.phone1 + body.phone2,
+						stamp: 0,
+						coupon: 0,
+						birth: birth,
+						favorite: result.coffee_name,
+						recent_order_time: null,
+						total_order_num: 0,						
+						isAdmin: false
+
+					}).then(result2 => {
+						models.favorite.create({
+							user_id: body.id,
+							coffee_id: body.coffee,
+							coffee_name: result.coffee_name
+						}).then(result3 => {
+							res.send({result : "success"});
+							console.log("회원가입 완료");
+						})
+					}).catch(err => {
+						console.log(err);
+					})
+
+
+				})
+				.catch(err => {
+					console.log(err);
+					res.send({result : "failed"});	
+					console.log("회원가입 실패");
+				});
+
+			}else{
 				models.user.create({
 					user_id: body.id,
 					password: body.password,
@@ -212,31 +250,24 @@ router.post('/sign_up', function(req, res, next) {
 					phone: body.phone + body.phone1 + body.phone2,
 					stamp: 0,
 					coupon: 0,
-					birth: body.birth,
-					favorite: result.coffee_name,
+					birth: birth,
+					favorite: null,
+					recent_order_time: null,
+					total_order_num: 0,					
 					isAdmin: false
 
-				}).then(result2 => {
-					models.favorite.create({
-						user_id: body.id,
-						coffee_id: body.coffee,
-						coffee_name: result.coffee_name
-					}).then(result3 => {
-						res.send({result : "success"});
-						console.log("회원가입 완료");
-					})
+				}).then(result3 => {
+					res.send({result : "success"});
+					console.log("회원가입 완료");
+				
 				}).catch(err => {
 					console.log(err);
+					res.send({result : "failed"});	
+					console.log("회원가입 실패");
 				})
-				
-				
-			})
-			.catch(err => {
-				console.log(err);
-				res.send({result : "failed"});	
-				console.log("회원가입 실패");
-			});
-		}
+
+			}
+		}	
 
 	}
 
@@ -361,6 +392,18 @@ router.post('/info', function(req, res){
 	});
 });
 
+// 회원 목록 불러오기
+router.post('/user', function(req, res){
+	var id = req.cookies.member_id;
+	models.user.findAll({
+		where: {[sequelize.notIn]:'admin'}
+	})
+	.then(docs =>{
+		res.send({ result : 'success', users: docs, member_id: id});
+	});
+});
+
+
 
 
 // 결제하기
@@ -368,11 +411,10 @@ router.post('/order', function(req, res, sequelize){
 	var id = req.cookies.member_id;
 	var num = 0;
 	var ten = 10;
-	var time;
+	var time = Date.now();;
 	models.cart.findAll({
 		where: {user_id: id}
 	}).then( result =>{
-		var time = Date.now();
 		for (var i = 0; i < result.length; i++) {
 			models.orderlist.create({
 				user_id: result[i].user_id,						
@@ -404,13 +446,28 @@ router.post('/order', function(req, res, sequelize){
 			var total = result.stamp + num;	
 			var temp = total / 10;
 			temp = parseInt(temp);		
-			console.log(total);
-			console.log(temp);
+
 			if(total < 10){
 				console.log("< 10");
 				models.user.update(
 				{
 					stamp: result.stamp + num
+				}, 
+				{
+					where: {user_id: id}
+				})
+
+				models.user.update(
+				{
+					recent_order_time: time
+				}, 
+				{
+					where: {user_id: id}
+				})
+
+				models.user.update(
+				{
+					total_order_num: result.total_order_num + num
 				}, 
 				{
 					where: {user_id: id}
@@ -428,6 +485,22 @@ router.post('/order', function(req, res, sequelize){
 				models.user.update(
 				{
 					coupon: result.coupon + 1*temp
+				}, 
+				{
+					where: {user_id: id}
+				})
+
+				models.user.update(
+				{
+					recent_order_time: time
+				}, 
+				{
+					where: {user_id: id}
+				})
+
+				models.user.update(
+				{
+					total_order_num: result.total_order_num + num
 				}, 
 				{
 					where: {user_id: id}
@@ -616,11 +689,20 @@ router.post('/cart', function(req, res){
 router.post('/order2', function(req, res){
 	var id = req.cookies.member_id;
 	models.orderlist.findAll({
-	
+
 	}).then(docs =>{
 		res.send({ result : 'success', orderlists: docs, member_id: id});
 	})
 });
 
+// 고객 목록 불러오기
+router.post('/customer', function(req, res){
+	var id = req.cookies.member_id;
+	models.user.findAll({
+
+	}).then(docs =>{
+		res.send({ result : 'success', users: docs, member_id: id});
+	})
+});
 
 module.exports = router;

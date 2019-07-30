@@ -14,6 +14,7 @@
     "morgan": "~1.9.1",
     "mysql2": "^1.6.5",
     "pug": "2.0.0-beta11",
-    "sequelize": "^5.8.7"
+    "sequelize": "^5.8.7",
+    "sequelize-date-no-tz-postgres": "^1.0.0"
   }
 }

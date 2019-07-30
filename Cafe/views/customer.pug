@@ -15,7 +15,7 @@ html
     
     #mySidenav.sidenav
       a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
-      a(href="/order2") 주문 관리
+      a(href="/order2", onclick="") 주문 관리
       a(href="/sales") 매출 관리
       a(href="/ingredient") 재료 관리
       a(href="/customer") 고객 관리
@@ -32,5 +32,18 @@ html
             span.glyphicon.glyphicon-menu-hamburger 
 
       h2.text-center(style='padding-top:30px') 고객 관리
-      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') user db에 저장된 목록 보여주기
+      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') admin 계정 빼기 
+      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') 주문 날짜 TZ 지우기
       
+      #user
+        table#user_table
+          thead
+            tr(width='100%')
+              th(width='3%') 아이디 
+              th(width='3%') 고객명
+              th(width='3%') 생년월일
+              th(width='3%') 전화번호
+              th(width='4%') 선호 커피           
+              th(width='5%') 최근 주문 날짜  
+              th(width='2%') 총 주문 횟수 
+          tbody

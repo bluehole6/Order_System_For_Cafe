@@ -7,7 +7,9 @@ var isLogin = 0;
 	if(isLogin == 0){
 		loadInfo();
 		loadCart();
-		loadOrder()
+		loadUser();
+		loadOrder();
+		
 	}
 })();
 
@@ -45,7 +47,7 @@ function loadInfo(){
 	});	
 }
 
-//장바구니 출력 
+// 장바구니 출력 
 
 function loadCart(){
 
@@ -100,6 +102,7 @@ function loadCart(){
 	});	
 }
 
+// 주문 목록 출력
 function loadOrder(){
 
 	var checkBtn = $(this);
@@ -145,6 +148,41 @@ function loadOrder(){
 				console.log("order load success");
 			}else{
 				console.log("order load failed");
+			}
+		}
+	});	
+}
+
+// 회원 목록 출력
+function loadUser(){
+
+	var checkBtn = $(this);
+	var tr = checkBtn.parent().parent();
+	var td = tr.children();
+	var order_num = td.eq(0).text();;  
+	$.ajax({
+		type : "POST",                       
+		url : "/customer",
+		success : function(res){
+			if(res.result == "success"){
+				var i;
+				var total_number = 0;
+				var id = res.member_id;
+				var res_user = res.users;
+				var parts = ['U_id','U_name', 'U_birth', 'U_favorite', 'U_order_date', 'U_order_num'];
+
+				$('#user_table > tbody').empty();
+
+				if(id != null){
+					for(i = 0; i < res_user.length; i++){
+
+						$('#user_table > tbody:last').append('<tr><td>' + res_user[i].user_id + '</td><td>' + res_user[i].name + '</td><td>'  + res_user[i].birth + '</td><td>' + res_user[i].phone  +  '</td><td>' + res_user[i].favorite + '</td><td>' +  res_user[i].recent_order_time + '</td><td>' + res_user[i].total_order_num + "번" + '</td></tr>');
+					}					
+				}
+
+				console.log("user load success");
+			}else{
+				console.log("user load failed");
 			}
 		}
 	});	

@@ -42,6 +42,13 @@ module.exports = {
 			favorite: { 
 				type: Sequelize.STRING
 
+			},		
+			recent_order_time: { 
+				type: Sequelize.DATE
+			},
+			total_order_num: { 
+				type: Sequelize.INTEGER,
+				allowNull: false
 			},
 			isAdmin: {
 				type: Sequelize.BOOLEAN,

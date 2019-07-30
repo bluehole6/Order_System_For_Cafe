@@ -36,13 +36,13 @@ html
         
         ul.nav.navbar
           if !member_id
-            a.nav-link(href='/login')
+            a.nav-link(href='/login')   
               span.glyphicon.glyphicon-user
 
             a.nav-link(href='/cart')
               span.glyphicon.glyphicon-shopping-cart
 
-            a.nav-link( onclick="openNav()") 
+            a.nav-link  
               span.glyphicon.glyphicon-menu-hamburger
           else
             a.nav-link(href='/info')
