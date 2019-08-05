@@ -304,6 +304,36 @@ p
 	text-align: center;
 }
 
+#sales_table{
+	padding-top: 50px;
+	position: absolute;
+}
+
+
+
+
+#sales_table th
+{
+	background-color: #F2F2F2;
+	height :50px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	font-size: 14px;
+	text-align: center;
+}
+
+#sales_table td
+{
+	
+	height :50px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dddddd;
+	font-size: 12px;
+	text-align: center;
+}
+
 
 .menuimg{
 	position: relative;
@@ -525,7 +555,6 @@ p
 #my_nav{
 	background-color: white;
 	padding: 1px;
-	
 }
 
 .sub_body{

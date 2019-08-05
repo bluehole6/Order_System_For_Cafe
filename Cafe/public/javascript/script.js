@@ -1,6 +1,6 @@
 
 
-
+// admin 계정일 때만 실행되도록 하기
 // 정보 출력
 var isLogin = 0;
 (function(){ 
@@ -9,7 +9,7 @@ var isLogin = 0;
 		loadCart();
 		loadUser();
 		loadOrder();
-		
+		loadSales();
 	}
 })();
 
@@ -54,7 +54,7 @@ function loadCart(){
 	var checkBtn = $(this);
 	var tr = checkBtn.parent().parent();
 	var td = tr.children();
-	var cart_num = td.eq(0).text();;  
+	var cart_num = td.eq(0).text();
 	$.ajax({
 		type : "POST",                       
 		url : "/cart",
@@ -120,7 +120,7 @@ function loadOrder(){
 				var res_order = res.orderlists;
 				var shot;
 				var parts = ['U_name','C_name', 'C_num', 'C_option', 'C_complete', 'order_time'];
-				var btn = '<input type="button" id="cancelBtn" value="완료"/>';
+				var btn = '<input type="button" id="completeBtn" value="완료"/>';
 				var btn2 = '<input type="hidden" id="order_num"/>';
 
 
@@ -153,6 +153,44 @@ function loadOrder(){
 	});	
 }
 
+// 매출 목록 출력
+function loadSales(){
+
+	var checkBtn = $(this);
+	var tr = checkBtn.parent().parent();
+	var td = tr.children();
+	$.ajax({
+		type : "POST",                       
+		url : "/sales",
+		success : function(res){
+			if(res.result == "success"){
+				var i;
+				var total_cost = 0;
+				var id = res.member_id;
+				var res_order = res.sales;
+
+				$('#sales_table > tbody').empty();
+				$('#total_cost').empty();
+
+				if(id != null){
+					for(i = 0; i < res_order.length; i++){
+						$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
+						total_cost += parseInt(res_order[i].cost);
+					}
+										
+				}
+				
+				$('#total_cost').append(addComma(total_cost) + "원");
+
+				console.log("sales load success");
+			}else{
+				console.log("sales load failed");
+			}
+		}
+	});	
+}
+
+
 // 회원 목록 출력
 function loadUser(){
 
@@ -176,7 +214,7 @@ function loadUser(){
 				if(id != null){
 					for(i = 0; i < res_user.length; i++){
 
-						$('#user_table > tbody:last').append('<tr><td>' + res_user[i].user_id + '</td><td>' + res_user[i].name + '</td><td>'  + res_user[i].birth + '</td><td>' + res_user[i].phone  +  '</td><td>' + res_user[i].favorite + '</td><td>' +  res_user[i].recent_order_time + '</td><td>' + res_user[i].total_order_num + "번" + '</td></tr>');
+						$('#user_table > tbody:last').append('<tr><td>' + (res_user[i].id - 1) + '</td><td>' + res_user[i].user_id + '</td><td>' + res_user[i].name + '</td><td>'  + res_user[i].birth + '</td><td>' + res_user[i].phone  +  '</td><td>' + res_user[i].favorite + '</td><td>' +  res_user[i].recent_order_time + '</td><td>' + res_user[i].total_order_num + "번" + '</td></tr>');
 					}					
 				}
 
@@ -520,7 +558,7 @@ $(function(){
 		
 	});
 
-	// cancel 버튼
+	// 삭제 버튼
 	$(document).on("click","#cancelBtn",function(){
 		var checkBtn = $(this);
 		var tr = checkBtn.parent().parent();
@@ -528,7 +566,7 @@ $(function(){
 		var cart_num = td.eq(0).text();  
 		$.ajax({
 			type : "POST",                       
-			url : "/remove",
+			url : "/remove_cart",
 			data : {num : cart_num},
 			success : function(res){
 				if(res.result == "success"){
@@ -545,12 +583,12 @@ $(function(){
 		});
 	});
 
-	// all cacel 버튼
+	// 전체 삭제 버튼
 	$(document).on("click","#All_cancelBtn",function(){
 		alert("전체 삭제");
 		$.ajax({
 			type : "POST",                       
-			url : "/all_remove",
+			url : "/all_remove_cart",
 			success : function(res){
 				if(res.result == "success"){
 					loadCart();
@@ -564,6 +602,61 @@ $(function(){
 				}
 			}
 		});
+	});
+
+	// 완료 버튼
+	$(document).on("click","#completeBtn",function(){
+
+		var checkBtn = $(this);
+		var tr = checkBtn.parent().parent();
+		var td = tr.children();
+		var order_num = td.eq(0).text();
+		var user_id = td.eq(2).text();
+
+		if (confirm("주문을 완료처리 하시겠습니까?\n(주문 고객님에게 알림이 갑니다.)")) {
+			$.ajax({
+				type : "POST",                       
+				url : "/complete_order",
+				data : {user_id : user_id, num : order_num},
+				success : function(res){
+					if(res.result == "success"){
+						loadOrder();
+						console.log("complete success");
+					}else{
+						if(res.result == "failed"){
+							console.log("complete failed");
+						}
+					}
+				}
+			});
+		} else {
+    		// Do nothing!
+		}    
+		
+	});
+
+	// 전체 완료 버튼
+	$(document).on("click","#All_completeBtn",function(){
+
+		if (confirm("모든 주문을 완료처리 하시겠습니까?\n(모든 주문 고객님들에게 알림이 갑니다.)")) {
+			$.ajax({
+				type : "POST",                       
+				url : "/all_complete_order",
+				success : function(res){
+					if(res.result == "success"){
+						loadOrder();
+						console.log("all complete success");
+					}else{
+						if(res.result == "failed"){
+							console.log("all complete failed");
+						}				
+					}
+				}
+			});
+		} else {
+    		// Do nothing!
+		}    
+		
 	});
 
 	$("#OrderBtn").click(function(){

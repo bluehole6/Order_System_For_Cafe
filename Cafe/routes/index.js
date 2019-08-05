@@ -1,8 +1,9 @@
-
+var Sequelize = require('sequelize');
 var express = require('express');
 let models = require('../models');
 var router = express.Router();
-
+const Op = Sequelize.Op;
+	
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	var id = req.cookies.member_id;
@@ -425,6 +426,27 @@ router.post('/order', function(req, res, sequelize){
 				shot: result[i].shot,
 				order_time: time
 			})
+
+			models.total_orderlist.create({
+				user_id: result[i].user_id,						
+				coffee_id: result[i].coffee_id,
+				coffee_name: result[i].coffee_name,
+				number: result[i].number,
+				size: result[i].size,
+				shot: result[i].shot,
+				order_time: time
+			})
+
+			models.sales.create({
+				user_id: result[i].user_id,						
+				coffee_id: result[i].coffee_id,
+				coffee_name: result[i].coffee_name,
+				number: result[i].number,
+				size: result[i].size,
+				shot: result[i].shot,
+				order_time: time,
+				cost: result[i].coffee_price * result[i].number
+			})
 		}
 		
 		// 주문완료 후 장바구니에서 삭제
@@ -634,7 +656,7 @@ router.post('/put_in', function(req, res, next){
 
 
 // 장바구니 삭제 o
-router.post('/remove', function(req, res, next){
+router.post('/remove_cart', function(req, res, next){
 
 	var id = req.cookies.member_id;
 	var cart_id = req.body.num;
@@ -657,7 +679,7 @@ router.post('/remove', function(req, res, next){
 });
 
 // 장바구니 전체 삭제 o
-router.post('/all_remove', function(req, res, next){
+router.post('/all_remove_cart', function(req, res, next){
 
 	var id = req.cookies.member_id;
 
@@ -685,7 +707,7 @@ router.post('/cart', function(req, res){
 	})
 });
 
-//주문 목록 불러오기
+//주문 목록 불러오기 o
 router.post('/order2', function(req, res){
 	var id = req.cookies.member_id;
 	models.orderlist.findAll({
@@ -695,13 +717,64 @@ router.post('/order2', function(req, res){
 	})
 });
 
+// 주문 목록 완료
+router.post('/complete_order', function(req, res, next){
+
+	var order_id = req.body.num;
+	var user_id = req.body.user_id;
+	order_id = parseInt(order_id);
+	models.orderlist.destroy({
+		where: {user_id: user_id, id: order_id}
+	})
+	.then(docs =>{
+		if(docs != null){
+			console.log("complete success");
+			res.send({result : "success"});	
+		}else{
+			console.log("complete failed");
+			res.send({result : "failed"});
+		}
+	});
+});
+
+// 주문 목록 전체 완료
+router.post('/all_complete_order', function(req, res, next){
+	console.log("------------");
+	models.orderlist.destroy({
+		where:{}
+	})
+	.then(docs =>{
+		if(docs != null){
+			console.log("all complete success");
+			res.send({result : "success"});	
+		}else{
+			console.log("all complete failed");
+			res.send({result : "failed"});
+		}
+	});
+});
+
 // 고객 목록 불러오기
-router.post('/customer', function(req, res){
+router.post('/customer', function(req, res, Sequelize){
 	var id = req.cookies.member_id;
 	models.user.findAll({
-
+		where: {
+			user_id : {
+				[Op.notLike]: 'admin'
+			}
+		}		
 	}).then(docs =>{
 		res.send({ result : 'success', users: docs, member_id: id});
+	})
+});
+
+// 매출 목록 불러오기
+router.post('/sales', function(req, res, Sequelize){
+	var id = req.cookies.member_id;
+	models.sales.findAll({
+		where: {}		
+	}).then(docs =>{
+		res.send({ result : 'success', sales: docs, member_id: id});
 	})
 });
 

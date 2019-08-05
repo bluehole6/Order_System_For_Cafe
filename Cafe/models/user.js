@@ -38,7 +38,8 @@ module.exports =(sequelize, DataTypes) => {
 			
 		},
 		recent_order_time: { 
-			type: DataTypes.DATE
+			type: DataTypes.DATE,
+			allowNull: false
 		},
 		total_order_num: { 
 			type: DataTypes.INTEGER,
