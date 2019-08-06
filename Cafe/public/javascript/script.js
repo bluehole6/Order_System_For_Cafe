@@ -9,7 +9,7 @@ var isLogin = 0;
 		loadCart();
 		loadUser();
 		loadOrder();
-		loadSales();
+		//loadSales();
 	}
 })();
 
@@ -161,7 +161,7 @@ function loadSales(){
 	var td = tr.children();
 	$.ajax({
 		type : "POST",                       
-		url : "/sales",
+		url : "/total_sales",
 		success : function(res){
 			if(res.result == "success"){
 				var i;
@@ -177,7 +177,76 @@ function loadSales(){
 						$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
 						total_cost += parseInt(res_order[i].cost);
 					}
-										
+
+				}
+				
+				$('#total_cost').append(addComma(total_cost) + "원");
+
+				console.log("sales load success");
+			}else{
+				console.log("sales load failed");
+			}
+		}
+	});	
+
+	$.ajax({
+		type : "POST",                       
+		url : "/date_sales",
+		success : function(res){
+			if(res.result == "success"){
+				var i;
+				var total_cost = 0;
+				var id = res.member_id;
+				var res_order = res.sales;
+
+				$('#sales_table > tbody').empty();
+				$('#total_cost').empty();
+
+				if(id != null){
+					for(i = 0; i < res_order.length; i++){
+						$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
+						total_cost += parseInt(res_order[i].cost);
+					}
+
+				}
+				
+				$('#total_cost').append(addComma(total_cost) + "원");
+
+				console.log("sales load success");
+			}else{
+				console.log("sales load failed");
+			}
+		}
+	});	
+}
+
+
+// 매출 목록 출력
+function loadSales2(){
+
+	var checkBtn = $(this);
+	var tr = checkBtn.parent().parent();
+	var td = tr.children();
+
+	$.ajax({
+		type : "POST",                       
+		url : "/date_sales",
+		success : function(res){
+			if(res.result == "success"){
+				var i;
+				var total_cost = 0;
+				var id = res.member_id;
+				var res_order = res.sales;
+
+				$('#sales_table > tbody').empty();
+				$('#total_cost').empty();
+
+				if(id != null){
+					for(i = 0; i < res_order.length; i++){
+						$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
+						total_cost += parseInt(res_order[i].cost);
+					}
+
 				}
 				
 				$('#total_cost').append(addComma(total_cost) + "원");
@@ -631,9 +700,9 @@ $(function(){
 			});
 		} else {
     		// Do nothing!
-		}    
-		
-	});
+    	}    
+
+    });
 
 	// 전체 완료 버튼
 	$(document).on("click","#All_completeBtn",function(){
@@ -655,10 +724,11 @@ $(function(){
 			});
 		} else {
     		// Do nothing!
-		}    
-		
-	});
+    	}    
 
+    });
+
+	// 장바구니 취소
 	$("#OrderBtn").click(function(){
 		var checkBtn = $("#cancelBtn");
 		var tr = checkBtn.parent().parent();
@@ -668,28 +738,100 @@ $(function(){
 			alert("장바구니를 채워주세요.");
 		}else{
 			if(confirm("결제하시겠습니까?")){
-			$.ajax({
-				type : "POST",                       
-				url : "/order",
-				success : function(res){
-					if(res.result == "success"){						
-						console.log("order success");
-					}else{
-						if(res.result == "failed"){
-							alert("재료 소진으로 주문 불가능합니다.");
-							console.log("put failed");
-						}				
+				$.ajax({
+					type : "POST",                       
+					url : "/order",
+					success : function(res){
+						if(res.result == "success"){						
+							console.log("order success");
+						}else{
+							if(res.result == "failed"){
+								alert("재료 소진으로 주문 불가능합니다.");
+								console.log("put failed");
+							}				
+						}
 					}
-				}
-			});
-			window.location.href = "/";
+				});
+				window.location.href = "/";
 
-		}else{
+			}else{
 
-		}
+			}
 		} 
 		
 	});
 
+
+	$("#TotalSalesBtn").click(function(){
+		$.ajax({
+			type : "POST",                       
+			url : "/total_sales",
+			success : function(res){
+				if(res.result == "success"){
+					console.log("logout success");
+				}else{
+					console.log("logout failed");
+				}
+			}
+		});	
+	});
+
+
+	// 
+	$("#SalesBtn").click(function(){
+		var formData = $("#sales_date");
+		var checkBtn = $(this);
+		var tr = checkBtn.parent().parent();
+		var td = tr.children();
+
+		$.ajax({
+			type : "POST",                       
+			url : "/date_sales",
+			data : formData,
+			success : function(res){
+				if(res.result == "success"){
+					var i;
+					var total_cost = 0;
+					var id = res.member_id;
+					var res_order = res.sales;
+
+					$('#sales_table > tbody').empty();
+					$('#total_cost').empty();
+
+					if(id != null){
+						for(i = 0; i < res_order.length; i++){
+							$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
+							total_cost += parseInt(res_order[i].cost);
+						}
+
+					}
+
+					$('#total_cost').append(addComma(total_cost) + "원");
+
+					console.log("sales load success");
+				}else{
+					console.log("sales load failed");
+				}
+			}
+		});	
+	});
+
+
+	// 달력
+	$(function() {
+		$( "#sales_date" ).datepicker({
+			dateFormat: 'yy-mm-dd',
+			prevText: '이전 달',
+			nextText: '다음 달',
+			monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+			monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+			dayNames: ['일','월','화','수','목','금','토'],
+			dayNamesShort: ['일','월','화','수','목','금','토'],
+			dayNamesMin: ['일','월','화','수','목','금','토'],
+			showMonthAfterYear: true,
+			changeMonth: true,
+			changeYear: true,
+		});
+	});
 });
 

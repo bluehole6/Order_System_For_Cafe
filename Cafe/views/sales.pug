@@ -9,6 +9,10 @@ html
     script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin='anonymous')
     script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
     script(src='/javascript/script.js')
+    link(rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css")
+    script(type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js")
+    script(type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js")
+    script(type="text/javascript" src="js/jquery.ui.datepicker-ko.js")
     link(rel='stylesheet', type='text/css',  href='stylesheets/style.css')
   
   body
@@ -32,8 +36,13 @@ html
             span.glyphicon.glyphicon-menu-hamburger 
 
       h2.text-center(style='padding-top:30px') 매출 관리
-      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') 고객이 주문 할때마다 금액을 저장하여 체크하기
+      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') db 검색시 00:00:00 없애기
       h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') 테이블을 따로 만들기 (실시간 매출, 날짜별 매출, 총 매출, 가장 많이 팔린 커피 순위)
+      
+      h3.text-center.ma_b15(herf='javascript:void(0)', id='TotalSalesBtn', class='TotalSalesBtn', onclick='loadSales()', style="cursor:pointer") 1. 총 매출
+      h3.text-center.ma_b15 2. 날짜별 매출
+        input#sales_date(type='text', name='order_date', placeholder='  날짜 입력')
+        button#SalesBtn.btn.btn-light(type='submit') 검색
 
       #sales
         table#sales_table
@@ -43,7 +52,7 @@ html
               th(width='3%') 아이디 
               th(width='3%') 주문 음료
               th(width='1%') 수량     
-              th(width='5%') 주문 날짜  
+              th(width='5%') 주문 날짜
               th(width='3%') 주문 금액
           tbody
 

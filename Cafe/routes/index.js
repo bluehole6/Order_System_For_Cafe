@@ -147,25 +147,25 @@ router.post('/checkID', function(req, res, next){
 
 
 // 회원가입 o
-router.post('/sign_up', function(req, res, next) {
+router.post('/sign_up', function(req, res, next){
 	var check = req.body.id_check;
 	var body = req.body;
 	var password_check = body.password_check;
-	console.log(body.coffee);
 
-	if(req.body.id == "" || req.body.password == "" || req.body.password_check == "" ||req.body.name == "" || req.body.phone1 == "" || req.body.phone2 == ""){
+	if(body.id == "" || body.password == "" || body.password_check == "" || body.name == "" || body.phone1 == "" || body.phone2 == ""){
 		console.log("register failed");
 		res.send({result : "empty"});
 	}
 	else{
-
 		if(check == "uncheck"){
 			console.log("register failed");
 			res.send({result : "check failed"});	
-		}else if(body.password != password_check){
+		}
+		else if(body.password != password_check){
 			console.log("register failed");
 			res.send({result : "pw failed"});	
-		}else if(req.body.id == 'admin'){
+		}
+		else if(req.body.id == 'admin'){
 			models.user.create({
 				user_id: body.id,
 				password: body.password,
@@ -187,11 +187,9 @@ router.post('/sign_up', function(req, res, next) {
 				console.log(err);
 				res.send({result : "failed"});	
 				console.log("회원가입 실패");
-			})
-
-
-		
-		}else{
+			});
+		}
+		else{
 			var birth = body.birth;
 			var coffee = body.coffee;
 
@@ -234,8 +232,6 @@ router.post('/sign_up', function(req, res, next) {
 					}).catch(err => {
 						console.log(err);
 					})
-
-
 				})
 				.catch(err => {
 					console.log(err);
@@ -260,18 +256,17 @@ router.post('/sign_up', function(req, res, next) {
 				}).then(result3 => {
 					res.send({result : "success"});
 					console.log("회원가입 완료");
-				
+
 				}).catch(err => {
 					console.log(err);
 					res.send({result : "failed"});	
 					console.log("회원가입 실패");
-				})
+				});
 
 			}
-		}	
-
-	}
-
+		}
+		
+	}	
 });
 
 // 로그인 o
@@ -412,7 +407,7 @@ router.post('/order', function(req, res, sequelize){
 	var id = req.cookies.member_id;
 	var num = 0;
 	var ten = 10;
-	var time = Date.now();;
+	var time = Date.now();
 	models.cart.findAll({
 		where: {user_id: id}
 	}).then( result =>{
@@ -769,11 +764,28 @@ router.post('/customer', function(req, res, Sequelize){
 });
 
 // 매출 목록 불러오기
-router.post('/sales', function(req, res, Sequelize){
+router.post('/total_sales', function(req, res, Sequelize){
 	var id = req.cookies.member_id;
 	models.sales.findAll({
 		where: {}		
 	}).then(docs =>{
+		res.send({ result : 'success', sales: docs, member_id: id});
+	})
+});
+
+router.post('/date_sales', function(req, res, Sequelize){
+	var id = req.cookies.member_id;
+	var date = req.body.order_date;
+	//date = date.toString();
+	console.log(date);
+	models.sales.findAll({
+		where: {
+			order_time : {
+				[Op.like]: date
+			}
+		}		
+	}).then(docs =>{
+		console.log("asdasdasd");
 		res.send({ result : 'success', sales: docs, member_id: id});
 	})
 });
