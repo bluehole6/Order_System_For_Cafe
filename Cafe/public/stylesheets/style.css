@@ -80,7 +80,7 @@ p
             cursor: pointer;
         }
 
-#sales_date{
+#sales_date, #sales_month{
 	margin-left: 15px;
 	border-color: #dddddd;
 	height: 25px;
@@ -113,15 +113,34 @@ p
 	font-size:20px;
 }  
 
-
-
 #info_table td{
 	border-style: solid;
 	border-width: 1px;
 	border-color: #dddddd;
 	margin:10px;
 	font-size:15px;
+}
+
+#rank_table{
+
+	border-width: 0px;
+
+}   
+
+#rank_table tr{
+	border-width: 0px;
+	text-align: center;
+}   
+
+#rank_table th{
+	border-width: 0px;	
+	font-size:15px;
 }  
+
+#rank_table td{
+	border-width: 0px;
+	font-size:12px;
+}    
 
 #RegisterForm table
 {
@@ -147,7 +166,8 @@ p
 }
 
 
-#RegisterForm td{
+#RegisterForm td
+{
 
 	padding-left:10px;
 	text-align: left;
@@ -257,9 +277,6 @@ p
 	position: absolute;
 }
 
-
-
-
 #order2_table th
 {
 	background-color: #F2F2F2;
@@ -287,9 +304,6 @@ p
 	position: absolute;
 }
 
-
-
-
 #user_table th
 {
 	background-color: #F2F2F2;
@@ -311,10 +325,9 @@ p
 	font-size: 12px;
 	text-align: center;
 }
-
 #sales_table{
 	padding-top: 50px;
-	position: absolute;
+	position: relative;
 }
 
 #sales_table th
@@ -339,7 +352,28 @@ p
 	text-align: center;
 }
 
-#SalesBtn{
+#sales{
+	width: 100%;
+	position: relative;
+	float:left;
+	margin-top: 50px;
+}
+
+#left{
+	width: 50%;
+	position: relative;
+	float:left;
+}
+
+
+#center{
+	width: 50%;
+	position: relative;
+	float:left;
+
+}
+
+#SalesBtn_date, #SalesBtn_month, #SalesTotalBtn{
 	position: relative;
 	border-style: solid;
 	border-color: #dddddd;

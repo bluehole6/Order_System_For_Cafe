@@ -10,6 +10,7 @@ var isLogin = 0;
 		loadUser();
 		loadOrder();
 		//loadSales();
+		loadRank();
 	}
 })();
 
@@ -153,7 +154,7 @@ function loadOrder(){
 	});	
 }
 
-// 매출 목록 출력
+// 총 매출 목록 출력
 function loadSales(){
 
 	var checkBtn = $(this);
@@ -188,40 +189,10 @@ function loadSales(){
 			}
 		}
 	});	
-
-	$.ajax({
-		type : "POST",                       
-		url : "/date_sales",
-		success : function(res){
-			if(res.result == "success"){
-				var i;
-				var total_cost = 0;
-				var id = res.member_id;
-				var res_order = res.sales;
-
-				$('#sales_table > tbody').empty();
-				$('#total_cost').empty();
-
-				if(id != null){
-					for(i = 0; i < res_order.length; i++){
-						$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
-						total_cost += parseInt(res_order[i].cost);
-					}
-
-				}
-				
-				$('#total_cost').append(addComma(total_cost) + "원");
-
-				console.log("sales load success");
-			}else{
-				console.log("sales load failed");
-			}
-		}
-	});	
 }
 
 
-// 매출 목록 출력
+// 날짜별 매출 목록 출력
 function loadSales2(){
 
 	var checkBtn = $(this);
@@ -283,13 +254,37 @@ function loadUser(){
 				if(id != null){
 					for(i = 0; i < res_user.length; i++){
 
-						$('#user_table > tbody:last').append('<tr><td>' + (res_user[i].id - 1) + '</td><td>' + res_user[i].user_id + '</td><td>' + res_user[i].name + '</td><td>'  + res_user[i].birth + '</td><td>' + res_user[i].phone  +  '</td><td>' + res_user[i].favorite + '</td><td>' +  res_user[i].recent_order_time + '</td><td>' + res_user[i].total_order_num + "번" + '</td></tr>');
+						$('#user_table > tbody:last').append('<tr><td>' + (res_user[i].id - 1) + '</td><td>' + res_user[i].user_id + '</td><td>' + res_user[i].name + '</td><td>'  + res_user[i].birth + '</td><td>' + res_user[i].phone  +  '</td><td>' + res_user[i].favorite + '</td><td>' +  res_user[i].recent_order_time + '</td><td>' + res_user[i].total_order_num + "개" + '</td></tr>');
 					}					
 				}
 
 				console.log("user load success");
 			}else{
 				console.log("user load failed");
+			}
+		}
+	});	
+}
+
+// 커피 순위 출력
+function loadRank(){
+	$.ajax({
+		type : "POST",                       
+		url : "/coffee_rank",
+		success : function(res){
+			if(res.result == "success"){
+				var i;
+				var res_sales = res.sales;
+				var parts = ['coffee_name', 'number'];
+				for(i = 0; i < res_sales.length; i++)
+				{	
+					$("#rank_table > tbody:last").append( '<tr><td>' + (i + 1)  +  '</td><td>' +res_sales[i].coffee_name + '</td><td>' +  res_sales[i].number + '</td></tr>');
+				}
+
+
+				console.log("student info load success");
+			}else{
+				console.log("student info load failed");
 			}
 		}
 	});	
@@ -761,7 +756,7 @@ $(function(){
 		
 	});
 
-
+	// 총 매출 리스트 불러오기
 	$("#TotalSalesBtn").click(function(){
 		$.ajax({
 			type : "POST",                       
@@ -777,8 +772,8 @@ $(function(){
 	});
 
 
-	// 
-	$("#SalesBtn").click(function(){
+	// 날짜별 매출 리스트 불러오기
+	$("#SalesBtn_date").click(function(){
 		var formData = $("#sales_date");
 		var checkBtn = $(this);
 		var tr = checkBtn.parent().parent();
@@ -816,6 +811,44 @@ $(function(){
 		});	
 	});
 
+	// 월별 매출 리스트 불러오기
+	$("#SalesBtn_month").click(function(){
+		var formData = $("#sales_month");
+		var checkBtn = $(this);
+		var tr = checkBtn.parent().parent();
+		var td = tr.children();
+
+		$.ajax({
+			type : "POST",                       
+			url : "/month_sales",
+			data : formData,
+			success : function(res){
+				if(res.result == "success"){
+					var i;
+					var total_cost = 0;
+					var id = res.member_id;
+					var res_order = res.sales;
+
+					$('#sales_table > tbody').empty();
+					$('#total_cost').empty();
+
+					if(id != null){
+						for(i = 0; i < res_order.length; i++){
+							$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
+							total_cost += parseInt(res_order[i].cost);
+						}
+
+					}
+
+					$('#total_cost').append(addComma(total_cost) + "원");
+
+					console.log("sales load success");
+				}else{
+					console.log("sales load failed");
+				}
+			}
+		});	
+	});
 
 	// 달력
 	$(function() {
@@ -831,6 +864,15 @@ $(function(){
 			showMonthAfterYear: true,
 			changeMonth: true,
 			changeYear: true,
+		});
+	});
+
+	$(function() {
+		$( "#sales_month" ).monthpicker({
+
+			monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+			monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+
 		});
 	});
 });

@@ -10,9 +10,12 @@ html
     script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
     script(src='/javascript/script.js')
     link(rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css")
-    script(type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js")
-    script(type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js")
-    script(type="text/javascript" src="js/jquery.ui.datepicker-ko.js")
+    script(type="text/javascript", src="http://code.jquery.com/jquery-1.9.1.min.js")
+    script(type="text/javascript", src="http://code.jquery.com/ui/1.9.2/jquery-ui.js")
+    script(type="text/javascript", src="/javascript/jquery.mtz.monthpicker.js")
+
+
+
     link(rel='stylesheet', type='text/css',  href='stylesheets/style.css')
   
   body
@@ -36,14 +39,40 @@ html
             span.glyphicon.glyphicon-menu-hamburger 
 
       h2.text-center(style='padding-top:30px') 매출 관리
-      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') db 검색시 00:00:00 없애기
+      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') 매출검색 테이블로 만들기
       h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') 테이블을 따로 만들기 (실시간 매출, 날짜별 매출, 총 매출, 가장 많이 팔린 커피 순위)
       
-      h3.text-center.ma_b15(herf='javascript:void(0)', id='TotalSalesBtn', class='TotalSalesBtn', onclick='loadSales()', style="cursor:pointer") 1. 총 매출
-      h3.text-center.ma_b15 2. 날짜별 매출
-        input#sales_date(type='text', name='order_date', placeholder='  날짜 입력')
-        button#SalesBtn.btn.btn-light(type='submit') 검색
+      #left.text-center
+        h3.ma_b15.ma_l15 매출 검색
 
+        table
+          thead
+            tr
+              th(width='1%') 
+              th(width='1%') 
+              th(width='1%')
+          tbody
+        h3.ma_b15.ma_l15 1. 총 매출
+          button#SalesTotalBtn.btn.btn-light(type='submit', onclick='loadSales()', style="margin-left: 120px;") 검색
+        h3.ma_b15.ma_l15 2. 날짜별 매출
+          input#sales_date(type='text', name='order_date', placeholder='yyyy-mm-dd', autocomplete="off")
+          button#SalesBtn_date.btn.btn-light(type='submit') 검색
+        h3.ma_b15.ma_l15 3. 월별 매출
+          input#sales_month(type='text', name='order_month', placeholder='   yyyy-mm', autocomplete="off")
+          button#SalesBtn_month.btn.btn-light(type='submit') 검색
+      
+      #center.text-center
+        h3.ma_t15.ma_b15(style="position: relative") 커피 순위
+        table#rank_table
+          thead
+            tr
+              th(width='1%') 순 위
+              th(width='1%') 커피 이름
+              th(width='1%') 판매량
+          tbody
+
+
+        
       #sales
         table#sales_table
           thead
@@ -59,5 +88,6 @@ html
           tfoot
             tr
               th.hidden
-              th(colspan="5") 총 금액  
+              th(colspan="5") 총 판매 금액  
               th#total_cost 0원
+

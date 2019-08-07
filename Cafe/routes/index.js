@@ -1,9 +1,9 @@
-var Sequelize = require('sequelize');
+var sequelize = require('sequelize');
 var express = require('express');
 let models = require('../models');
 var router = express.Router();
-const Op = Sequelize.Op;
-	
+const Op = sequelize.Op;
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	var id = req.cookies.member_id;
@@ -271,8 +271,6 @@ router.post('/sign_up', function(req, res, next){
 
 // 로그인 o
 router.post('/login', function(req, res, next){
-	console.log(req.body);
-
 	var id = req.body.id;
 	var password = req.body.password;
 	var cookie_id = req.body.id;
@@ -380,12 +378,15 @@ router.post('/logout', function(req, res){
 //회원정보 불러오기 o
 router.post('/info', function(req, res){
 	var id = req.cookies.member_id;
-	models.user.findOne({
-		where: {user_id: id}
-	})
-	.then(docs =>{
-		res.send({ result : 'success', users: docs, member_id: id});
-	});
+	if(id != null){
+		models.user.findOne({
+			where: {user_id : id}
+		})
+		.then(docs =>{
+			res.send({ result : 'success', users: docs, member_id: id});
+		});
+	}
+	
 });
 
 // 회원 목록 불러오기
@@ -695,11 +696,14 @@ router.post('/all_remove_cart', function(req, res, next){
 //장바구니 불러오기 o
 router.post('/cart', function(req, res){
 	var id = req.cookies.member_id;
-	models.cart.findAll({
-		where: {user_id: id}
-	}).then(docs =>{
-		res.send({ result : 'success', carts: docs, member_id: id});
-	})
+	if(id != null){
+		models.cart.findAll({
+			where: {user_id: id}
+		}).then(docs =>{
+			res.send({ result : 'success', carts: docs, member_id: id});
+		})	
+	}
+
 });
 
 //주문 목록 불러오기 o
@@ -773,21 +777,63 @@ router.post('/total_sales', function(req, res, Sequelize){
 	})
 });
 
+
+// 날짜별 매출 불러오기
 router.post('/date_sales', function(req, res, Sequelize){
 	var id = req.cookies.member_id;
-	var date = req.body.order_date;
-	//date = date.toString();
-	console.log(date);
+	var date1 = req.body.order_date;
+	var date2 = new Date(date1);
+	var date3 = new Date(date1);
+
+	date2.setHours(0,0,0,0);
+	date3.setHours(23,59,59,999);
+	console.log(date2);
+	console.log(date3);
 	models.sales.findAll({
 		where: {
 			order_time : {
-				[Op.like]: date
+				[Op.between] : [date2, date3]
 			}
 		}		
 	}).then(docs =>{
-		console.log("asdasdasd");
 		res.send({ result : 'success', sales: docs, member_id: id});
 	})
+});
+
+// 월별 매출 불러오기
+router.post('/month_sales', function(req, res, Sequelize){
+	var id = req.cookies.member_id;
+	var date1 = req.body.order_month;
+	var date2 = new Date(date1);
+	var date3 = new Date(date1);
+	var mm = date3.getMonth() + 1;
+	date2.setHours(0,0,0,0);
+	date3.setMonth(mm);
+	date3.setHours(0,0,0,0);
+	date3.setHours(0,0,0,-1);
+	console.log(date2);
+	console.log(date3);
+	models.sales.findAll({
+		where: {
+			order_time : {
+				[Op.between] : [date2, date3]
+			}
+		}		
+	}).then(docs =>{
+		res.send({ result : 'success', sales: docs, member_id: id});
+	})
+});
+
+// 커피 판매 순위 불러오기
+router.post('/coffee_rank', function(req, res, Sequelize){
+	console.log("coffee_rank");
+	models.sales.findAll({
+		attributes: ['coffee_name', [sequelize.fn('sum', sequelize.col('number')), 'number']],
+		group : ['coffee_name'],
+		order: sequelize.literal('number DESC')		
+	}).then(docs =>{
+		res.send({ result : 'success', sales: docs});
+	});
 });
 
 module.exports = router;
