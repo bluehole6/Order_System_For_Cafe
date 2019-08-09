@@ -1,3 +1,4 @@
+// 필요없으면 삭제
 'use strict';
 module.exports =(sequelize, DataTypes) => {
 	var total_orderlist = sequelize.define('total_orderlist', {
@@ -22,7 +23,10 @@ module.exports =(sequelize, DataTypes) => {
 			allowNull: false,
 		},
 		shot: {
-			type: DataTypes.STRING,
+			type: DataTypes.BOOLEAN
+		},
+		takeout: {
+			type: DataTypes.BOOLEAN
 		},
 		order_time: {
 			type: DataTypes.DATE,

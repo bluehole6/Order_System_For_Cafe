@@ -420,6 +420,7 @@ router.post('/order', function(req, res, sequelize){
 				number: result[i].number,
 				size: result[i].size,
 				shot: result[i].shot,
+				takeout: result[i].takeout,
 				order_time: time
 			})
 
@@ -430,6 +431,7 @@ router.post('/order', function(req, res, sequelize){
 				number: result[i].number,
 				size: result[i].size,
 				shot: result[i].shot,
+				takeout: result[i].takeout,
 				order_time: time
 			})
 
@@ -440,6 +442,7 @@ router.post('/order', function(req, res, sequelize){
 				number: result[i].number,
 				size: result[i].size,
 				shot: result[i].shot,
+				takeout: result[i].takeout,
 				order_time: time,
 				cost: result[i].coffee_price * result[i].number
 			})
@@ -555,10 +558,14 @@ router.post('/put_in', function(req, res, next){
 	number = parseInt(number);
 	var size = req.body.size;
 	var shot = req.body.shot;
+	var shot_check = false;
+	var takeout = req.body.takeout;
+	var takeout_check = false;
 	var price;
 
 	// Find some documents 
-
+	console.log(shot);
+	console.log(takeout);
 	models.coffee.findOne({
 		where: {id : coffee_id}
 	})
@@ -581,8 +588,13 @@ router.post('/put_in', function(req, res, next){
 						console.log(price);
 					}
 
-					if(shot != null){
+					if(shot == "add_shot"){
 						price = price + 500;
+						shot_check = true;						
+					}
+
+					if(takeout == "takeout"){
+						takeout_check = true;
 					}
 
 					models.cart.create({
@@ -592,7 +604,8 @@ router.post('/put_in', function(req, res, next){
 						number: number,
 						coffee_price: price,
 						size: size,
-						shot: shot
+						shot: shot_check,
+						takeout: takeout_check
 					})
 					.then(result =>{
 						res.send({ result : 'success'});
@@ -612,15 +625,19 @@ router.post('/put_in', function(req, res, next){
 						console.log(price);
 					}
 
-					if(shot != null){
+					if(shot == "add_shot"){
 						price = price + 500;
+						shot_check = true;						
 					}
 
+					if(takeout == "takeout"){
+						takeout_check = true;
+					}
 
 					 // 이미 들어있다면 갯수만 증가
-					 if(docs2.size == size && docs2.shot == shot){
+					if(docs2.size == size && docs2.shot == shot_check && docs2.takeout == takeout_check){
 					 	models.cart.update({
-					 		number: number + 1
+					 		number: docs2.number + number
 					 	}, {
 					 		where: {id: docs2.id}
 					 	})
@@ -628,7 +645,7 @@ router.post('/put_in', function(req, res, next){
 					 		res.send({ result : 'success'});
 					 		console.log("장바구니 담기 완료");
 					 	});							
-					 }else{
+					}else{
 					 	models.cart.create({
 					 		user_id: id,						
 					 		coffee_id: coffee_id,
@@ -636,16 +653,17 @@ router.post('/put_in', function(req, res, next){
 					 		number: number,
 					 		coffee_price: price,
 					 		size: size,
-					 		shot: shot
+					 		shot: shot_check,
+							takeout: takeout_check
 					 	})
 					 	.then(result =>{
 					 		res.send({ result : 'success'});
 					 		console.log("장바구니 담기 완료");
 					 	});
-					 }
-
 					}
-				});
+
+				}
+			});
 		}
 	});
 });
@@ -755,7 +773,7 @@ router.post('/all_complete_order', function(req, res, next){
 
 // 고객 목록 불러오기
 router.post('/customer', function(req, res, Sequelize){
-	var id = req.cookies.member_id;
+	var login_id = req.cookies.member_id;
 	models.user.findAll({
 		where: {
 			user_id : {
@@ -763,24 +781,24 @@ router.post('/customer', function(req, res, Sequelize){
 			}
 		}		
 	}).then(docs =>{
-		res.send({ result : 'success', users: docs, member_id: id});
+		res.send({ result : 'success', users: docs, member_id: login_id});
 	})
 });
 
-// 매출 목록 불러오기
+// 총 매출 목록 불러오기
 router.post('/total_sales', function(req, res, Sequelize){
-	var id = req.cookies.member_id;
+	var login_id = req.cookies.member_id;
 	models.sales.findAll({
 		where: {}		
 	}).then(docs =>{
-		res.send({ result : 'success', sales: docs, member_id: id});
+		res.send({ result : 'success', sales: docs, member_id: login_id});
 	})
 });
 
 
 // 날짜별 매출 불러오기
 router.post('/date_sales', function(req, res, Sequelize){
-	var id = req.cookies.member_id;
+	var login_id = req.cookies.member_id;
 	var date1 = req.body.order_date;
 	var date2 = new Date(date1);
 	var date3 = new Date(date1);
@@ -789,20 +807,25 @@ router.post('/date_sales', function(req, res, Sequelize){
 	date3.setHours(23,59,59,999);
 	console.log(date2);
 	console.log(date3);
-	models.sales.findAll({
-		where: {
-			order_time : {
-				[Op.between] : [date2, date3]
-			}
-		}		
-	}).then(docs =>{
-		res.send({ result : 'success', sales: docs, member_id: id});
-	})
+	if(date1 == ""){
+		res.send({ result : 'date_sales_failed'});
+	}else{
+		models.sales.findAll({
+			where: {
+				order_time : {
+					[Op.between] : [date2, date3]
+				}
+			}		
+		}).then(docs =>{
+			res.send({ result : 'success', sales: docs, member_id: login_id});
+		})
+	}
+
 });
 
 // 월별 매출 불러오기
 router.post('/month_sales', function(req, res, Sequelize){
-	var id = req.cookies.member_id;
+	var login_id = req.cookies.member_id;
 	var date1 = req.body.order_month;
 	var date2 = new Date(date1);
 	var date3 = new Date(date1);
@@ -813,20 +836,43 @@ router.post('/month_sales', function(req, res, Sequelize){
 	date3.setHours(0,0,0,-1);
 	console.log(date2);
 	console.log(date3);
-	models.sales.findAll({
-		where: {
-			order_time : {
-				[Op.between] : [date2, date3]
-			}
-		}		
-	}).then(docs =>{
-		res.send({ result : 'success', sales: docs, member_id: id});
-	})
+	if(date1 == ""){
+		res.send({ result : 'month_sales_failed'});
+	}else{
+		models.sales.findAll({
+			where: {
+				order_time : {
+					[Op.between] : [date2, date3]
+				}
+			}		
+		}).then(docs =>{
+			res.send({ result : 'success', sales: docs, member_id: login_id});
+		})		
+	}
+
+});
+
+// 고객별 매출 불러오기
+router.post('/id_sales', function(req, res, Sequelize){
+	var login_id = req.cookies.member_id;
+	var user_id = req.body.order_id;
+	if(user_id == ""){
+		res.send({ result : 'id_sales_failed'});
+	}else{
+		models.sales.findAll({
+			where: {
+				user_id: user_id
+			}		
+		}).then(docs =>{
+			res.send({ result : 'success', sales: docs, member_id: login_id});
+		})
+	}
+
 });
 
 // 커피 판매 순위 불러오기
 router.post('/coffee_rank', function(req, res, Sequelize){
-	console.log("coffee_rank");
+	// SELECT coffee_name, sum(number) AS number FROM sales GROUP BY coffee_name ORDER BY number DESC 
 	models.sales.findAll({
 		attributes: ['coffee_name', [sequelize.fn('sum', sequelize.col('number')), 'number']],
 		group : ['coffee_name'],

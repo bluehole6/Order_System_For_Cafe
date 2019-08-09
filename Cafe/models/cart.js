@@ -26,7 +26,10 @@ module.exports =(sequelize, DataTypes) => {
 			allowNull: false,
 		},
 		shot: {
-			type: DataTypes.STRING,
+			type: DataTypes.BOOLEAN,
+		},
+		takeout: {
+			type: DataTypes.BOOLEAN,
 		}
 	},{
 		timestamps: false

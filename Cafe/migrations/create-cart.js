@@ -33,7 +33,10 @@ module.exports = {
 				allowNull: false,
 			},
 			shot: {
-				type: Sequelize.STRING,
+				type: Sequelize.BOOLEAN,
+			},
+			takeout: {
+				type: Sequelize.BOOLEAN,
 			}
 		},{
 			timestamps: false

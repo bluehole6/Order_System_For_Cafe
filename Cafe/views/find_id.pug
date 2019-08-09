@@ -28,31 +28,34 @@ html
         a(href="/events") Events
         a(href="/contact") Contact
         a(herf='javascript:void(0)', id='LogoutBtn', class='logoutbtn', onclick='closeNav()', style="cursor:pointer") Logout
-
+    
     #overlay
-      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
-        a#my_title.navbar-brand(href='/main')
-          img(src='image/logo2.jpg', width='150', height='45')
-        
-        ul.nav.navbar
-          if !member_id
-            a.nav-link(href='/login')
-              span.glyphicon.glyphicon-user
+      table#nav_table.navbar.navbar-light.fixed-top
+        tr(width='100%')
+          td
+            a#my_title.navbar-brand(href='/main')
+              img(src='image/logo2.jpg', width='150', height='45')           
+          td
+            ul.nav.navbar
+              if !member_id
+                a.nav-link(href='/login')
+                  span.glyphicon.glyphicon-user
 
-            a.nav-link(href='/cart')
-              span.glyphicon.glyphicon-shopping-cart
+                a.nav-link(href='/cart')
+                  span.glyphicon.glyphicon-shopping-cart
 
-            a.nav-link( onclick="openNav()") 
-              span.glyphicon.glyphicon-menu-hamburger
-          else
-            a.nav-link(href='/info')
-              span.glyphicon.glyphicon-user
+                a.nav-link( onclick="openNav()") 
+                  span.glyphicon.glyphicon-menu-hamburger
+              else
+                a.nav-link(href='/info')
+                  span.glyphicon.glyphicon-user
 
-            a.nav-link(href='/cart')
-              span.glyphicon.glyphicon-shopping-cart
+                a.nav-link(href='/cart')
+                  span.glyphicon.glyphicon-shopping-cart
 
-            a.nav-link( onclick="openNav()") 
-              span.glyphicon.glyphicon-menu-hamburgerr 
+                a.nav-link(onclick="openNav()") 
+                  span.glyphicon.glyphicon-menu-hamburger
+  
 
       h2.text-center(style='padding-top:30px') 아이디 찾기
       h3.text-center(style='padding-top:5px') Welcome!

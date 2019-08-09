@@ -29,8 +29,11 @@ module.exports = {
 				allowNull: false,
 			},
 			shot: {
-				type: Sequelize.STRING,
+				type: Sequelize.BOOLEAN,
 			},
+			takeout: {
+				type: Sequelize.BOOLEAN,
+			},			
 			order_time: {
 				type: Sequelize.STRING,
 				allowNull: false,

@@ -29,44 +29,64 @@ html
         a(href="/events") Events
         a(href="/contact") Contact
         a(herf='javascript:void(0)', id='LogoutBtn', class='logoutbtn', onclick='closeNav()', style="cursor:pointer") Logout
-
+    
     #overlay
-      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
-        a#my_title.navbar-brand(href='/main')
-          img(src='image/logo2.jpg', width='150', height='45')
-  
-        ul.nav.navbar
-          if !member_id
-            a.nav-link(href='/login')
-              span.glyphicon.glyphicon-user
+      #overlay_top
+        table#nav_table.navbar.navbar-light.fixed-top
+          tr(width='100%')
+            td
+              a#my_title.navbar-brand(href='/main')
+                img(src='image/logo2.jpg', width='150', height='45')           
+            td
+              ul.nav.navbar
+                if !member_id
+                  a.nav-link(href='/login')
+                    span.glyphicon.glyphicon-user
 
-            a.nav-link(href='/cart' onclick="loadCart()")
-              span.glyphicon.glyphicon-shopping-cart
+                  a.nav-link(href='/cart')
+                    span.glyphicon.glyphicon-shopping-cart
 
-            a.nav-link( onclick="openNav()") 
-              span.glyphicon.glyphicon-menu-hamburger
-          else
-            a.nav-link(href='/info')
-              span.glyphicon.glyphicon-user
+                  a.nav-link( onclick="openNav()") 
+                    span.glyphicon.glyphicon-menu-hamburger
+                else
+                  a.nav-link(href='/info')
+                    span.glyphicon.glyphicon-user
 
-            a.nav-link(href='/cart')
-              span.glyphicon.glyphicon-shopping-cart
+                  a.nav-link(href='/cart')
+                    span.glyphicon.glyphicon-shopping-cart
 
-            a.nav-link( onclick="openNav()") 
-              span.glyphicon.glyphicon-menu-hamburger
-      
-      div(class='banner')
-        ul
-          li
-            img(src='image/banner1.jpg', width="420" height="300px")
-          li
-            img(src='image/banner2.jpg', width="420" height="300px")
-          li 
-            img(src='image/banner3.jpg', width="420" height="300px")
-          li  
-            img(src='image/banner4.jpg', width="420" height="300px")
-          li
-            img(src='image/banner5.jpg', width="420" height="300px")
+                  a.nav-link(onclick="openNav()") 
+                    span.glyphicon.glyphicon-menu-hamburger
 
-      div(class='writing')
-        img(src='image/writing.jpg', width="100%" height="400px")
+      #overlay_middle
+        .banner
+          ul
+            li
+              img#banner_img(src='image/banner1.jpg', width="420px" height="300px")
+            li
+              img#banner_img(src='image/banner2.jpg', width="420px" height="300px")
+            li 
+              img#banner_img(src='image/banner3.jpg', width="420px" height="300px")
+            li  
+              img#banner_img(src='image/banner4.jpg', width="420px" height="300px")
+            li
+              img#banner_img(src='image/banner5.jpg', width="420px" height="300px")
+
+      #overlay_bottom
+        .writing_img
+          .content
+            p(style="font-size:22px;") 원두에 원칙을 더하다
+            p(style="font-size:16px;") SKKU COOFFEE만의 커피원칙, 선 로스팅 후 블렌딩
+            p(style="font-size:13px;")
+              | 에티오피아, 콜롬비아, 브라질, 파푸아뉴기니, 각기 다른 산지에서 자란
+              br
+              | 생두는 모양도, 크기도, 향도 다릅니다.
+              br  
+              |  SKKU COFFEE의 원두는 산지 별 생두를 특징에 맞게
+              br
+              | 따로 로스팅 되어 맛과 향이 풍부합니다. 
+              br
+              | 그 풍부한 맛과 향이 최적의 비율로 블랜딩 되면
+              br
+              | 비로소, SKKU COFFEE만의 최상급 에스프레소가 완성됩니다.
+          .writing_img-cover

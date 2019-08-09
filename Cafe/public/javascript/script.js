@@ -14,6 +14,9 @@ var isLogin = 0;
 	}
 })();
 
+// 주문시 요구사항
+var requirement = "sss";
+
 
 //회원정보 출력
 function loadInfo(){
@@ -66,26 +69,33 @@ function loadCart(){
 				var total_price = 0;
 				var id = res.member_id;
 				var res_cart = res.carts;
-				var shot;
 				var parts = ['C_name', 'C_num', 'C_price', 'C_option', 'C_cancel'];
 				var btn = '<input type="button" id="cancelBtn" value="삭제"/>';
 				var btn2 = '<input type="hidden" id="cart_num"/>';
-
+				var shot;
+				var takeout;
 
 				$('#cart_table > tbody').empty();
 				$('#total_num').empty();
 				$('#total_price').empty();
+
 				
 				if(id != null){
 					for(i = 0; i < res_cart.length; i++){
 
-						if(res_cart[i].shot == "add_shot"){
-							res_cart[i].shot = "O";
+						if(res_cart[i].shot == 1){
+							shot = "O";
 						}else{
-							res_cart[i].shot = "X";
+							shot = "X";							
+						}
+						if(res_cart[i].takeout == 1){
+							takeout = "O";
+						}else{
+							takeout = "X";
 						}
 						
-						$('#cart_table > tbody:last').append('<tr><td class="hidden">' + res_cart[i].id + '</td><td>' + btn + '</td><td>' + res_cart[i].coffee_name + '</td><td>' + "사이즈 : " + res_cart[i].size  + "<br>" + "샷추가 :  " + res_cart[i].shot + '</td><td>' +  addComma(res_cart[i].coffee_price) + "원" + '</td><td>' +  res_cart[i].number + "개" + '</td><td>' + addComma(res_cart[i].number * res_cart[i].coffee_price) + "원" + '</td></tr>');
+											
+						$('#cart_table > tbody:last').append('<tr><td class="hidden">' + res_cart[i].id + '</td><td>' + btn + '</td><td>' + res_cart[i].coffee_name + '</td><td>' + "사이즈 : " + res_cart[i].size  + "<br>" + "샷추가 :  " + shot + "<br>" + "테이크아웃 :  " + takeout +'</td><td>' +  addComma(res_cart[i].coffee_price) + "원" + '</td><td>' +  res_cart[i].number + "개" + '</td><td>' + addComma(res_cart[i].number * res_cart[i].coffee_price) + "원" + '</td></tr>');
 						total_number += parseInt(res_cart[i].number);
 						total_price = total_price + (res_cart[i].number * res_cart[i].coffee_price);
 					}
@@ -119,11 +129,11 @@ function loadOrder(){
 				var total_number = 0;
 				var id = res.member_id;
 				var res_order = res.orderlists;
-				var shot;
 				var parts = ['U_name','C_name', 'C_num', 'C_option', 'C_complete', 'order_time'];
 				var btn = '<input type="button" id="completeBtn" value="완료"/>';
 				var btn2 = '<input type="hidden" id="order_num"/>';
-
+				var shot;
+				var takeout;
 
 				$('#order2_table > tbody').empty();
 				$('#total_num2').empty();
@@ -131,13 +141,19 @@ function loadOrder(){
 				if(id != null){
 					for(i = 0; i < res_order.length; i++){
 
-						if(res_order[i].shot == "add_shot"){
-							res_order[i].shot = "O";
+						if(res_order[i].shot == 1){
+							shot = "O";
 						}else{
-							res_order[i].shot = "X";
+							shot = "X";
+						}
+
+						if(res_order[i].takeout == 1){
+							takeout = "O";
+						}else{
+							takeout = "X";
 						}
 						
-						$('#order2_table > tbody:last').append('<tr><td class="hidden">' + res_order[i].id + '</td><td>' + btn + '</td><td>' + res_order[i].user_id + '</td><td>'  + res_order[i].coffee_name + '</td><td>' + "사이즈 : " + res_order[i].size  + "<br>" + "샷추가 :  " + res_order[i].shot + '</td><td>' +  res_order[i].order_time + '</td><td>' + res_order[i].number + "개" + '</td></tr>');
+						$('#order2_table > tbody:last').append('<tr><td class="hidden">' + res_order[i].id + '</td><td>' + btn + '</td><td>' + res_order[i].user_id + '</td><td>'  + res_order[i].coffee_name + '</td><td>' + "사이즈 : " + res_order[i].size  + "<br>" + "샷추가 :  " + shot + '</td><td>' +  takeout + '</td><td>' + res_order[i].order_time + '</td><td>' + requirement + '</td><td>' + res_order[i].number + "개" + '</td></tr>');
 						total_number += parseInt(res_order[i].number);
 					}
 					
@@ -155,43 +171,36 @@ function loadOrder(){
 }
 
 // 총 매출 목록 출력
-function loadSales(){
+function loadSales(res){
 
-	var checkBtn = $(this);
-	var tr = checkBtn.parent().parent();
-	var td = tr.children();
-	$.ajax({
-		type : "POST",                       
-		url : "/total_sales",
-		success : function(res){
-			if(res.result == "success"){
-				var i;
-				var total_cost = 0;
-				var id = res.member_id;
-				var res_order = res.sales;
+	if(res.result == "success"){
+		var i;
+		var total_cost = 0;
+		var id = res.member_id;
+		var res_order = res.sales;
 
-				$('#sales_table > tbody').empty();
-				$('#total_cost').empty();
+		$('#sales_table > tbody').empty();
+		$('#total_cost').empty();
 
-				if(id != null){
-					for(i = 0; i < res_order.length; i++){
-						$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
-						total_cost += parseInt(res_order[i].cost);
-					}
-
-				}
-				
-				$('#total_cost').append(addComma(total_cost) + "원");
-
-				console.log("sales load success");
-			}else{
-				console.log("sales load failed");
+		if(id != null){
+			for(i = 0; i < res_order.length; i++){
+				$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
+				total_cost += parseInt(res_order[i].cost);
 			}
+
 		}
-	});	
+
+		$('#total_cost').append(addComma(total_cost) + "원");
+
+		console.log("sales load success");
+	}else if(res.result == "date_sales_failed" || res.result == "month_sales_failed"){
+		alert('날짜를 입력해주세요.');
+	}else{
+		alert('아이디를 입력해주세요.');
+	}
 }
 
-
+/*
 // 날짜별 매출 목록 출력
 function loadSales2(){
 
@@ -230,6 +239,43 @@ function loadSales2(){
 	});	
 }
 
+// 회원별 매출 목록 출력
+function loadSales3(){
+
+	var checkBtn = $(this);
+	var tr = checkBtn.parent().parent();
+	var td = tr.children();
+	$.ajax({
+		type : "POST",                       
+		url : "/id_sales",
+		success : function(res){
+			if(res.result == "success"){
+				var i;
+				var total_cost = 0;
+				var id = res.member_id;
+				var res_order = res.sales;
+
+				$('#sales_table > tbody').empty();
+				$('#total_cost').empty();
+
+				if(id != null){
+					for(i = 0; i < res_order.length; i++){
+						$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
+						total_cost += parseInt(res_order[i].cost);
+					}
+
+				}
+				
+				$('#total_cost').append(addComma(total_cost) + "원");
+
+				console.log("sales load success");
+			}else{
+				console.log("sales load failed");
+			}
+		}
+	});	
+}
+*/
 
 // 회원 목록 출력
 function loadUser(){
@@ -723,19 +769,23 @@ $(function(){
 
     });
 
-	// 장바구니 취소
+	// 결제하기
 	$("#OrderBtn").click(function(){
 		var checkBtn = $("#cancelBtn");
 		var tr = checkBtn.parent().parent();
 		var td = tr.children();
 		var cart_num = td.eq(0).text();
+		
+
 		if(cart_num == ""){
 			alert("장바구니를 채워주세요.");
 		}else{
+			var requirement = $("#order_requirement");
 			if(confirm("결제하시겠습니까?")){
 				$.ajax({
 					type : "POST",                       
 					url : "/order",
+					data : requirement,
 					success : function(res){
 						if(res.result == "success"){						
 							console.log("order success");
@@ -757,18 +807,17 @@ $(function(){
 	});
 
 	// 총 매출 리스트 불러오기
-	$("#TotalSalesBtn").click(function(){
+	$("#SalesBtn_total").click(function(){
+		var checkBtn = $(this);
+		var tr = checkBtn.parent().parent();
+		var td = tr.children();
 		$.ajax({
 			type : "POST",                       
 			url : "/total_sales",
 			success : function(res){
-				if(res.result == "success"){
-					console.log("logout success");
-				}else{
-					console.log("logout failed");
-				}
+				loadSales(res);
 			}
-		});	
+		});		
 	});
 
 
@@ -778,35 +827,13 @@ $(function(){
 		var checkBtn = $(this);
 		var tr = checkBtn.parent().parent();
 		var td = tr.children();
-
+			
 		$.ajax({
 			type : "POST",                       
 			url : "/date_sales",
 			data : formData,
 			success : function(res){
-				if(res.result == "success"){
-					var i;
-					var total_cost = 0;
-					var id = res.member_id;
-					var res_order = res.sales;
-
-					$('#sales_table > tbody').empty();
-					$('#total_cost').empty();
-
-					if(id != null){
-						for(i = 0; i < res_order.length; i++){
-							$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
-							total_cost += parseInt(res_order[i].cost);
-						}
-
-					}
-
-					$('#total_cost').append(addComma(total_cost) + "원");
-
-					console.log("sales load success");
-				}else{
-					console.log("sales load failed");
-				}
+				loadSales(res);
 			}
 		});	
 	});
@@ -823,29 +850,24 @@ $(function(){
 			url : "/month_sales",
 			data : formData,
 			success : function(res){
-				if(res.result == "success"){
-					var i;
-					var total_cost = 0;
-					var id = res.member_id;
-					var res_order = res.sales;
+				loadSales(res);
+			}
+		});	
+	});
 
-					$('#sales_table > tbody').empty();
-					$('#total_cost').empty();
+	// 고객별 매출 리스트 불러오기
+	$("#SalesBtn_id").click(function(){
+		var formData = $("#sales_id");
+		var checkBtn = $(this);
+		var tr = checkBtn.parent().parent();
+		var td = tr.children();
 
-					if(id != null){
-						for(i = 0; i < res_order.length; i++){
-							$('#sales_table > tbody:last').append('<tr><td>' + res_order[i].id + '</td><td>' + res_order[i].user_id + '</td><td>' + res_order[i].coffee_name + '</td><td>'  + res_order[i].number + "개" + '</td><td>' + res_order[i].order_time + '</td><td>' + addComma(res_order[i].cost) + "원" + '</td><tr>');
-							total_cost += parseInt(res_order[i].cost);
-						}
-
-					}
-
-					$('#total_cost').append(addComma(total_cost) + "원");
-
-					console.log("sales load success");
-				}else{
-					console.log("sales load failed");
-				}
+		$.ajax({
+			type : "POST",                       
+			url : "/id_sales",
+			data : formData,
+			success : function(res){
+				loadSales(res);
 			}
 		});	
 	});

@@ -22,7 +22,10 @@ module.exports =(sequelize, DataTypes) => {
 			allowNull: false,
 		},
 		shot: {
-			type: DataTypes.STRING,
+			type: DataTypes.BOOLEAN
+		},
+		takeout: {
+			type: DataTypes.BOOLEAN
 		},
 		order_time: {
 			type: DataTypes.DATE,

@@ -70,29 +70,34 @@ html
         a(herf='javascript:void(0)', id='LogoutBtn', class='logoutbtn', onclick='closeNav()', style="cursor:pointer") Logout
 
     #overlay
-      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
-        a#my_title.navbar-brand(href='/main')
-          img(src='image/logo2.jpg', width='150', height='45')
+      table#nav_table.navbar.navbar-light.fixed-top
+        tr(width='100%')
+          td
+            a#my_title.navbar-brand(href='/main')
+              img(src='image/logo2.jpg', width='150', height='45')           
+          td
+            ul.nav.navbar
+              if !member_id
+                a.nav-link(href='/login')
+                  span.glyphicon.glyphicon-user
+
+                a.nav-link(href='/cart')
+                  span.glyphicon.glyphicon-shopping-cart
+
+                a.nav-link( onclick="openNav()") 
+                  span.glyphicon.glyphicon-menu-hamburger
+              else
+                a.nav-link(href='/info')
+                  span.glyphicon.glyphicon-user
+
+                a.nav-link(href='/cart')
+                  span.glyphicon.glyphicon-shopping-cart
+
+                a.nav-link(onclick="openNav()") 
+                  span.glyphicon.glyphicon-menu-hamburger 
+
         
-        ul.nav.navbar
-          if !member_id
-            a.nav-link(href='/login')
-              span.glyphicon.glyphicon-user
-
-            a.nav-link(href='/cart')
-              span.glyphicon.glyphicon-shopping-cart
-
-            a.nav-link( onclick="openNav()") 
-              span.glyphicon.glyphicon-menu-hamburger
-          else
-            a.nav-link(href='/info')
-              span.glyphicon.glyphicon-user
-
-            a.nav-link(href='/cart')
-              span.glyphicon.glyphicon-shopping-cart
-
-            a.nav-link(onclick="openNav()") 
-              span.glyphicon.glyphicon-menu-hamburger 
+        
 
       h2.text-center(style='padding-top:30px') Menu
       h3.text-center Welcome!
@@ -101,75 +106,93 @@ html
     
       p(style="text-align: center; padding-top: 20px")  M : "+500" &nbsp L : "+1,000" &nbsp 샷추가 : "+500"
 
-      #menu_table(style='width:100%')
+      #menu_table(style='width:100%').ma_b15
         table
           tbody
             tr              
               td 
                 img.menuimg(src='image/menu/아메리카노1.jpg')
-                button.OrderBtn.btn.btn-light(type='button', value='1', style='width:45%') 바로 주문                
-                a               
-                button.PutInBtn.btn.btn-light(type='button', value='1', style='width:45%') 담기
               td
                 img.menuimg(src='image/menu/아메리카노2.jpg')
+            tr
+              td
+                button.OrderBtn.btn.btn-light(type='button', value='1') 바로 주문
+                a 
+                button.PutInBtn.btn.btn-light(type='button', value='1') 담기
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='2') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='2') 담기
-            tr              
+            tr
               td 
                 img.menuimg(src='image/menu/카페라떼1.jpg')
+              td 
+                img.menuimg(src='image/menu/카페라떼2.jpg')
+            tr
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='3') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='3') 담기
-              td 
-                img.menuimg(src='image/menu/카페라떼2.jpg')
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='4') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='4') 담기
             tr              
               td 
                 img.menuimg(src='image/menu/카페모카1.jpg')
+              td 
+                img.menuimg(src='image/menu/카페모카2.jpg')
+            tr
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='5') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='5') 담기
-              td 
-                img.menuimg(src='image/menu/카페모카2.jpg')
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='6') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='6') 담기
             tr              
               td 
                 img.menuimg(src='image/menu/카푸치노1.jpg')
+              td
+                img.menuimg(src='image/menu/카푸치노2.jpg')
+            tr
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='7') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='7') 담기
               td
-                img.menuimg(src='image/menu/카푸치노2.jpg')
                 button.OrderBtn.btn.btn-light(type='button', value='8') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='8') 담기
             tr              
               td 
                 img.menuimg(src='image/menu/카라멜 마끼야토1.jpg')
+              td 
+                img.menuimg(src='image/menu/카라멜 마끼야토2.jpg')
+            tr
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='9') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='9') 담기
-              td 
-                img.menuimg(src='image/menu/카라멜 마끼야토2.jpg')
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='10') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='10') 담기
             tr              
               td 
                 img.menuimg(src='image/menu/바닐라 라떼1.jpg')
+              td 
+                img.menuimg(src='image/menu/바닐라 라떼2.jpg')
+            tr
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='11') 바로 주문
                 a 
                 button.PutInBtn.btn.btn-light(type='button', value='11') 담기
-              td 
-                img.menuimg(src='image/menu/바닐라 라떼2.jpg')
+              td
                 button.OrderBtn.btn.btn-light(type='button', value='12') 바로 주문
                 a 
-                button.PutInBtn.btn.btn-light(type='button', value='12') 담기         
+                button.PutInBtn.btn.btn-light(type='button', value='12') 담기    
 
 
 

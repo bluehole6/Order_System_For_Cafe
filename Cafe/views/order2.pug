@@ -13,12 +13,7 @@ html
   
   body
     
-    #overlay
-      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
-        a#my_title.navbar-brand(href='/main')
-          img(src='image/logo2.jpg', width='150', height='45')
-        
-    
+
     #mySidenav.sidenav
       a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
       a(href="/order2") 주문 관리
@@ -29,28 +24,33 @@ html
       a(herf='javascript:void(0)', id='LogoutBtn', class='logoutbtn', onclick='closeNav()', style="cursor:pointer") Logout
 
     #overlay
-      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
-        a#my_title.navbar-brand(href='/manage')
-          p(style='font-size:25px') 관리자 페이지
-        
-        ul.nav.navbar
-          a.nav-link( onclick="openNav()") 
-            span.glyphicon.glyphicon-menu-hamburger 
+      table#nav_table.navbar.navbar-light.fixed-top
+        tr(width='100%')
+          td
+            a#my_title.navbar-brand(href='/manage')
+              p(style='font-size:25px') 관리자 페이지         
+          td
+            ul.nav.navbar
+              a.nav-link( onclick="openNav()") 
+                span.glyphicon.glyphicon-menu-hamburger
 
       h2.text-center(style='padding-top:30px') 주문 관리
       h3.text-center.ma_b15(style='font-size: 18px') 완료 버튼 누를 시, 고객에게 alert창 띄우기
+      h3.text-center.ma_b15(style='font-size: 18px') 기타 요구사항 가져오기 (db에 저장 안 하는 방법 있는지 찾기 && 요구사항 테이블을 따로 만들고 완료되면 삭제하기)
 
       #order2
         table#order2_table
           thead
             tr(width='100%')
               th.hidden
-              th(width='1%') 완료 
+              th(width='1%') 완료
               th(width='2%') 고객명
-              th(width='5%') 상품명
-              th(width='2%') 옵션           
-              th(width='4%') 주문 시간  
-              th(width='2%') 수량 
+              th(width='4%') 상품명
+              th(width='2%') 옵션
+              th(width='1%') 테이크아웃
+              th(width='3%') 주문 시간
+              th(width='5%') 요구 사항
+              th(width='2%') 수량
           tbody
             
           tfoot
@@ -58,9 +58,9 @@ html
               th.hidden
               th 
                 button#All_completeBtn.btn.btn-light(type='button') 전체 완료
-              th(colspan="4") 총합계  
+              th(colspan="6") 총합계  
               th#total_num2 0개
- 
 
-  
-      
+
+
+    

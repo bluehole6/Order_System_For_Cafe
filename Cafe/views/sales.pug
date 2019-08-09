@@ -28,41 +28,55 @@ html
       a(href="/customer") 고객 관리
       a(href="/shop") 매장 관리
       a(herf='javascript:void(0)', id='LogoutBtn', class='logoutbtn', onclick='closeNav()', style="cursor:pointer") Logout
-
+    
     #overlay
-      #my_nav.navbar.navbar-light.navbar-expand-lg.fixed-top
-        a#my_title.navbar-brand(href='/manage')
-          p(style='font-size:25px') 관리자 페이지
-        
-        ul.nav.navbar
-          a.nav-link( onclick="openNav()") 
-            span.glyphicon.glyphicon-menu-hamburger 
+      table#nav_table.navbar.navbar-light.fixed-top
+        tr(width='100%')
+          td
+            a#my_title.navbar-brand(href='/manage')
+              p(style='font-size:25px') 관리자 페이지         
+          td
+            ul.nav.navbar
+              a.nav-link( onclick="openNav()") 
+                span.glyphicon.glyphicon-menu-hamburger
 
-      h2.text-center(style='padding-top:30px') 매출 관리
-      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') 매출검색 테이블로 만들기
-      h3.text-center.ma_b15(style='padding-top:30px; font-size: 18px') 테이블을 따로 만들기 (실시간 매출, 날짜별 매출, 총 매출, 가장 많이 팔린 커피 순위)
+      h2.text-center.ma_b90(style='padding-top:30px') 매출 관리
+      h3.text-center.ma_b15(style='font-size: 18px') 고객별 매출 없는 아이디 입력시 "존재하지 않는 아이디입니다." 띄우기
       
       #left.text-center
-        h3.ma_b15.ma_l15 매출 검색
+        p.ma_b25.txtSize26 매출 검색
 
-        table
+        table#sales_search
           thead
+            th(width='2%')
+            th(width='1%')
+            th(width='1%')
             tr
-              th(width='1%') 
-              th(width='1%') 
-              th(width='1%')
-          tbody
-        h3.ma_b15.ma_l15 1. 총 매출
-          button#SalesTotalBtn.btn.btn-light(type='submit', onclick='loadSales()', style="margin-left: 120px;") 검색
-        h3.ma_b15.ma_l15 2. 날짜별 매출
-          input#sales_date(type='text', name='order_date', placeholder='yyyy-mm-dd', autocomplete="off")
-          button#SalesBtn_date.btn.btn-light(type='submit') 검색
-        h3.ma_b15.ma_l15 3. 월별 매출
-          input#sales_month(type='text', name='order_month', placeholder='   yyyy-mm', autocomplete="off")
-          button#SalesBtn_month.btn.btn-light(type='submit') 검색
+              td(style='text-align: left;') 1. 총 매출
+              td
+              td 
+                button#SalesBtn_total.btn.btn-light(type='submit', onclick='loadSales()') 검색
+            tr
+              td(style='text-align: left;') 2. 날짜별 매출
+              td(style='text-align: left;')
+                input#sales_date(type='text', name='order_date', placeholder='yyyy-mm-dd', autocomplete="off")
+              td
+                button#SalesBtn_date.btn.btn-light(type='submit') 검색
+            tr
+              td(style='text-align: left;') 3. 월별 매출
+              td(style='text-align: left;')
+                input#sales_month(type='text', name='order_month', placeholder='   yyyy-mm', autocomplete="off")
+              td
+                button#SalesBtn_month.btn.btn-light(type='submit') 검색
+            tr
+              td(style='text-align: left;') 4. 고객별 매출
+              td(style='text-align: left;')
+                input#sales_id(type='text', name='order_id', placeholder=' 아이디 입력', autocomplete="off")
+              td
+                button#SalesBtn_id.btn.btn-light(type='submit') 검색 
       
       #center.text-center
-        h3.ma_t15.ma_b15(style="position: relative") 커피 순위
+        p.ma_t15.ma_b25.txtSize26 커피 순위
         table#rank_table
           thead
             tr

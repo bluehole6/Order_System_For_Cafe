@@ -45,7 +45,6 @@ module.exports = {
 			},		
 			recent_order_time: { 
 				type: Sequelize.STRING,
-				allowNull: false
 			},
 			total_order_num: { 
 				type: Sequelize.INTEGER,
