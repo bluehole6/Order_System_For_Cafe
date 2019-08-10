@@ -9,13 +9,16 @@ var isLogin = 0;
 		loadCart();
 		loadUser();
 		loadOrder();
-		//loadSales();
 		loadRank();
 	}
 })();
 
-// 주문시 요구사항
-var requirement = "sss";
+
+// 5초 마다 주문 목록 불러오기 
+window.setInterval(function(){
+	loadOrder();
+	loadRank();
+}, 5000);
 
 
 //회원정보 출력
@@ -125,10 +128,11 @@ function loadOrder(){
 		url : "/order2",
 		success : function(res){
 			if(res.result == "success"){
-				var i;
+				var i, j = 0;
 				var total_number = 0;
 				var id = res.member_id;
 				var res_order = res.orderlists;
+				var res_requirement = res.order_requirements;
 				var parts = ['U_name','C_name', 'C_num', 'C_option', 'C_complete', 'order_time'];
 				var btn = '<input type="button" id="completeBtn" value="완료"/>';
 				var btn2 = '<input type="hidden" id="order_num"/>';
@@ -137,7 +141,6 @@ function loadOrder(){
 
 				$('#order2_table > tbody').empty();
 				$('#total_num2').empty();
-
 				if(id != null){
 					for(i = 0; i < res_order.length; i++){
 
@@ -152,9 +155,17 @@ function loadOrder(){
 						}else{
 							takeout = "X";
 						}
+
+						if(res_order[i].id == res_requirement[j].id){
+							$('#order2_table > tbody:last').append('<tr><td class="hidden">' + res_order[i].id + '</td><td>' + btn + '</td><td>' + res_order[i].user_id + '</td><td>'  + res_order[i].coffee_name + '</td><td>' + "사이즈 : " + res_order[i].size  + "<br>" + "샷추가 :  " + shot + '</td><td>' +  takeout + '</td><td>' + res_order[i].order_time + '</td><td>' + res_requirement[j].requirement + '</td><td>' + res_order[i].number + "개" + '</td></tr>');
+							total_number += parseInt(res_order[i].number);
+							j++;
+						}else{
+							$('#order2_table > tbody:last').append('<tr><td class="hidden">' + res_order[i].id + '</td><td>' + btn + '</td><td>' + res_order[i].user_id + '</td><td>'  + res_order[i].coffee_name + '</td><td>' + "사이즈 : " + res_order[i].size  + "<br>" + "샷추가 :  " + shot + '</td><td>' +  takeout + '</td><td>' + res_order[i].order_time + '</td><td>' + " " + '</td><td>' + res_order[i].number + "개" + '</td></tr>');
+							total_number += parseInt(res_order[i].number);
+						}
 						
-						$('#order2_table > tbody:last').append('<tr><td class="hidden">' + res_order[i].id + '</td><td>' + btn + '</td><td>' + res_order[i].user_id + '</td><td>'  + res_order[i].coffee_name + '</td><td>' + "사이즈 : " + res_order[i].size  + "<br>" + "샷추가 :  " + shot + '</td><td>' +  takeout + '</td><td>' + res_order[i].order_time + '</td><td>' + requirement + '</td><td>' + res_order[i].number + "개" + '</td></tr>');
-						total_number += parseInt(res_order[i].number);
+						
 					}
 					
 					
@@ -775,7 +786,7 @@ $(function(){
 		var tr = checkBtn.parent().parent();
 		var td = tr.children();
 		var cart_num = td.eq(0).text();
-		
+		var requirement = $("#requirement");
 
 		if(cart_num == ""){
 			alert("장바구니를 채워주세요.");
