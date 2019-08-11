@@ -36,7 +36,7 @@ app.use('/order', indexRouter);
 app.use('/sales', indexRouter);
 app.use('/shop', indexRouter);
 app.use('/sign_up', indexRouter);
-
+app.use('/chat', indexRouter);
 
 let models = require("./models/index.js");
 
@@ -46,6 +46,8 @@ models.sequelize.sync().then( () => {
     console.log("연결 실패")
     console.log(err)
 })
+
+
 
 
 // catch 404 and forward to error handler

@@ -4,6 +4,8 @@ let models = require('../models');
 var router = express.Router();
 const Op = sequelize.Op;
 
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var id = req.cookies.member_id;
@@ -297,11 +299,11 @@ router.post('/login', function(req, res, next) {
                     if (id == "admin") {
                         console.log("admin login success");
                         console.log("로그인 완료");
-                        res.send({ result: "admin success" });
+                        res.send({ result: "admin success"});
                     } else {
                         console.log("member login success");
                         console.log("로그인 완료");
-                        res.send({ result: "member success" });
+                        res.send({ result: "member success", id: id });
                     }
                 } else {
                     console.log("login failed");

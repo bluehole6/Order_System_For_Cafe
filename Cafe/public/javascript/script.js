@@ -1,5 +1,4 @@
 
-
 // admin 계정일 때만 실행되도록 하기
 // 정보 출력
 var isLogin = 0;
@@ -10,6 +9,7 @@ var isLogin = 0;
 		loadUser();
 		loadOrder();
 		loadRank();
+
 	}
 })();
 
@@ -17,7 +17,6 @@ var isLogin = 0;
 // 5초 마다 주문 목록 불러오기 
 window.setInterval(function(){
 	loadOrder();
-	loadRank();
 }, 5000);
 
 
@@ -553,6 +552,28 @@ $(function(){
 					console.log("admin login success");
 					window.location.href = "/manage";
 				}else if(res.result == "member success"){
+					$(function(){
+				        // socket.io 서버에 접속한다
+
+				        var socket = io();
+
+				        // 서버로 자신의 정보를 전송한다.
+				        socket.emit("login", {
+				          uid: res.id
+				        });
+
+				        // Send 버튼이 클릭되면
+				        $("form").submit(function(e) {
+				          e.preventDefault();
+				          var $msgForm = $("#msgForm");
+
+				          // 서버로 메시지를 전송한다.
+				          socket.emit("chat", { msg: $msgForm.val() });
+				          $msgForm.val("");
+				        });
+
+				    
+				     }); 
 					console.log("member login success");
 					isLogin = 1;
 					window.location.href = "/";
@@ -741,7 +762,16 @@ $(function(){
 				data : {user_id : user_id, num : order_num},
 				success : function(res){
 					if(res.result == "success"){
-						loadOrder();
+						$(function(){
+					        // socket.io 서버에 접속한다
+
+					       	var socket = io();
+
+					       	socket.emit('message', { uid: user_id, msg:'글쓴이1 에게만 보내는 메시지입니다.' });
+
+					    
+				     	});
+						loadOrder(); // 주문 목록 새로고침
 						console.log("complete success");
 					}else{
 						if(res.result == "failed"){
@@ -900,6 +930,7 @@ $(function(){
 		});
 	});
 
+	// 월만 표시
 	$(function() {
 		$( "#sales_month" ).monthpicker({
 

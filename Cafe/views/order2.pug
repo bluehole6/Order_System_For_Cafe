@@ -10,7 +10,8 @@ html
     script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
     script(src='/javascript/script.js')
     link(rel='stylesheet', type='text/css',  href='stylesheets/style.css')
-  
+    script(src="/socket.io/socket.io.js")
+    
   body
     
 
@@ -35,7 +36,7 @@ html
                 span.glyphicon.glyphicon-menu-hamburger
 
       h2.text-center(style='padding-top:30px') 주문 관리
-      h3.text-center.ma_b15(style='font-size: 18px') 완료 버튼 누를 시, 고객에게 alert창 띄우기
+      h3.text-center.ma_b15(style='font-size: 18px') 완료 버튼 누를 시, 고객에게 alert창 띄우기(전체말고 개인)
 
       #order2
         table#order2_table

@@ -22,10 +22,19 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+ * Socket.io
+ */
+
+var socketApi = require('../socketApi');
+var io = socketApi.io;
+io.attach(server);
+/**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, function(){
+  console.log('listening on *:9999');
+});
 server.on('error', onError);
 server.on('listening', onListening);
 

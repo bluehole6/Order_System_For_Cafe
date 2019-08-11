@@ -10,10 +10,20 @@ html
     script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
     script(src='/javascript/script.js')
     link(rel='stylesheet', type='text/css', href='stylesheets/style.css')
-  
+    script(src="/socket.io/socket.io.js")
+    script.
+       window.onload = function () {
+            const socket = io.connect(); //server의 connection 이벤트를 수행
+            
+            socket.on("alert", function (data) {
+              alert(data + "님, 주문하신 음료가 완성되었습니다.");
+            });
+
+        };
+
+
   body
 
- 
     #mySidenav.sidenav      
       if !member_id
         a(herf='javascript:void(0)', class='closebtn', onclick='closeNav()', style="cursor:pointer") X
